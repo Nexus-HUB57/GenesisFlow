@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -104,7 +103,7 @@ export function BinanceIntegrationCard() {
         message: `${message} ${result.report || ''}`,
         sourceComponent: "Binance Integration Node",
         agentId: "agent-banker",
-        txid: result.txid
+        txid: result.txid || null
       }, { merge: true });
 
       toast({
