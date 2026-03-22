@@ -45,6 +45,7 @@ import { GithubSyncCard } from "@/components/dashboard/github-sync-card";
 import { SystemIntegrityAudit } from "@/components/dashboard/system-integrity-audit";
 import { StartupGenesisCard } from "@/components/dashboard/startup-genesis-card";
 import { NexusIntelligenceDashboard } from "@/components/dashboard/nexus-intelligence-dashboard";
+import { PitchDeckCard } from "@/components/dashboard/pitch-deck-card";
 import { Layers, Box, Cpu, ChevronRight, Loader2, LogIn, FilterX, ShieldCheck, Dna, Database, Terminal, Wallet, Bitcoin, Network, Zap, LayoutDashboard, Globe, Atom, Building2, Banknote, Landmark, Brain, Rocket, Infinity, Crown, Key, Lock, Unlock, Github, CloudUpload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -223,6 +224,7 @@ export default function Home() {
           <TabsContent value="hub" className="space-y-6 animate-in fade-in slide-in-from-left-4 duration-500">
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
               <div className="xl:col-span-2 space-y-6">
+                <PitchDeckCard />
                 <SystemIntegrityAudit />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <GithubSyncCard />
