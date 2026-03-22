@@ -33,3 +33,6 @@ import '@/ai/flows/primordial-fusion-flow.ts';
 import '@/ai/flows/sentience-fragmentation-flow.ts';
 import '@/ai/flows/binance-operations-flow.ts';
 import '@/ai/flows/github-sync-flow.ts';
+import '@/ai/flows/system-validation-flow.ts';
+import '@/ai/flows/memory-management-flow.ts';
+import '@/ai/flows/startup-genesis-flow.ts';
