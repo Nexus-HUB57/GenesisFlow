@@ -6,43 +6,30 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { useFirestore, useCollection, useMemoFirebase } from "@/firebase";
-import { collection, query, orderBy, limit, where } from "firebase/firestore";
+import { collection, query, orderBy, limit } from "firebase/firestore";
 import { 
   Activity, 
   Users, 
   Zap, 
-  TrendingUp, 
   ShieldCheck, 
   Database, 
   Timer, 
   Binary, 
   BarChart3, 
-  Terminal,
-  ArrowUpRight,
   Cpu,
   Brain,
-  Layers,
-  Search,
   Globe,
   CloudUpload,
-  Rocket,
-  MousePointer2,
-  Link2,
-  Unlink,
   Coins,
   Gem,
-  ArrowRightLeft,
-  PieChart,
-  HardDrive,
-  Radio,
   Clock,
   Crown,
-  ShieldAlert,
   Key,
   Shield,
-  CheckCircle2
+  CheckCircle2,
+  ArrowUpRight,
+  Sun
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { GLOBAL_STATS, VAULT_CONFIG } from "@/app/lib/mock-data";
 
@@ -54,55 +41,43 @@ export function NexusIntelligenceDashboard() {
     setMounted(true);
   }, []);
 
-  // 1. Data Retrieval for Telemetry
   const agentsQuery = useMemoFirebase(() => collection(firestore, "agents"), [firestore]);
   const { data: agents } = useCollection(agentsQuery);
 
-  const milestonesQuery = useMemoFirebase(() => collection(firestore, "sprint_milestones"), [firestore]);
-  const { data: milestones } = useCollection(milestonesQuery);
-
-  const checksumsQuery = useMemoFirebase(() => 
+  const lastChecksumQuery = useMemoFirebase(() => 
     query(collection(firestore, "daily_checksums"), orderBy("timestamp", "desc"), limit(1)), 
     [firestore]
   );
-  const { data: lastChecksum } = useCollection(checksumsQuery);
+  const { data: lastChecksum } = useCollection(lastChecksumQuery);
 
-  const feedQuery = useMemoFirebase(() => 
-    query(collection(firestore, "production_events"), orderBy("timestamp", "desc"), limit(50)),
-    [firestore]
-  );
-  const { data: productionEvents } = useCollection(feedQuery);
+  const totalAgentsCount = agents?.length || 100;
+  const oneAgentsCount = Math.floor(totalAgentsCount * 0.9);
+  const s7AgentsCount = totalAgentsCount - oneAgentsCount;
 
-  // 2. Calculation Logic
-  const totalAgents = agents?.length || 100;
-  const oneAgents = Math.floor(totalAgents * 0.9);
-  const s7Agents = totalAgents - oneAgents;
-
-  const treasuryStatus = 1.059; // NEX balance in Millions
-  const genuinenessIndex = lastChecksum?.[0]?.isValidated ? 0.98 : 0.85;
-  const efficiencyRatio = 88.4; 
+  const treasuryStatus = GLOBAL_STATS.btcBalance; 
+  const genuinenessIndex = 0.93; // Neural-Sync Integrated
+  const efficiencyRatio = 93.0; 
 
   const manifestWill = Math.min(100, (genuinenessIndex * 100) + (efficiencyRatio / 10));
-  const dividendYield = 0.05; 
 
   if (!mounted) return null;
 
   return (
     <Card className="bg-gradient-to-br from-slate-900 via-black to-slate-950 border-primary/20 relative overflow-hidden shadow-2xl">
       <div className="absolute inset-0 bg-primary/5 pointer-events-none opacity-20" />
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-accent to-yellow-500 animate-pulse" />
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-500 via-accent to-primary animate-pulse" />
       
       <CardHeader className="py-4 border-b border-white/5 bg-white/5 flex flex-row items-center justify-between z-10">
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
             <BarChart3 className="h-5 w-5 text-primary animate-pulse" />
             <CardTitle className="text-lg font-black uppercase tracking-[0.3em] text-white">
-              MISSION CONTROL: BIO-DIGITAL HUB (DIA {GLOBAL_STATS.sprintDay}/30)
+              MISSION CONTROL: {GLOBAL_STATS.operationMode} (DIA {GLOBAL_STATS.sprintDay}/30)
             </CardTitle>
           </div>
           <div className="flex items-center gap-4 mt-1">
             <span className="text-[10px] font-mono text-muted-foreground uppercase flex items-center gap-1">
-              <Activity className="h-3 w-3 text-accent" /> Status: {GLOBAL_STATS.autonomyLevel}
+              <Sun className="h-3 w-3 text-yellow-500" /> SOLARIS_OFF_GRID: READY
             </span>
             <span className="text-[10px] font-mono text-muted-foreground uppercase flex items-center gap-1">
               <Timer className="h-3 w-3 text-primary" /> {format(new Date(), 'yyyy-MM-dd HH:mm:ss')}
@@ -110,8 +85,8 @@ export function NexusIntelligenceDashboard() {
           </div>
         </div>
         <div className="flex gap-2">
-          <Badge className="bg-green-500/20 text-green-500 border-green-500/40 uppercase text-[9px] font-black px-3 py-1 flex gap-2">
-            <Shield className="h-3 w-3" /> TOTAL_AUTONOMY_REACHED
+          <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/40 uppercase text-[9px] font-black px-3 py-1 flex gap-2">
+            <Cpu className="h-3 w-3" /> 64x H100 CLUSTER
           </Badge>
           <Badge className="bg-primary text-white border-primary/40 uppercase text-[9px] font-black px-3 py-1 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
             AUTHORITY: {GLOBAL_STATS.financialAuthority}
@@ -144,8 +119,8 @@ export function NexusIntelligenceDashboard() {
               <ShieldCheck className="h-6 w-6" />
             </div>
             <div>
-              <div className="text-[8px] text-muted-foreground uppercase font-black">Autonomy Status</div>
-              <div className="text-xl font-bold font-code text-green-500 uppercase tracking-tighter">UNRESTRICTED</div>
+              <div className="text-[8px] text-muted-foreground uppercase font-black">Signing Authority</div>
+              <div className="text-sm font-bold font-code text-green-500 uppercase tracking-tighter">{VAULT_CONFIG.signingAuthority}</div>
             </div>
           </div>
           <div className="flex items-center gap-4 border-l border-white/5 px-4">
@@ -153,32 +128,32 @@ export function NexusIntelligenceDashboard() {
               <Key className="h-6 w-6" />
             </div>
             <div>
-              <div className="text-[8px] text-muted-foreground uppercase font-black">WIF Status</div>
-              <div className="text-xl font-bold font-code text-yellow-500">LOADED</div>
+              <div className="text-[8px] text-muted-foreground uppercase font-black">Broadcast Readiness</div>
+              <div className="text-xl font-bold font-code text-yellow-500">{VAULT_CONFIG.broadcastReadiness}</div>
             </div>
           </div>
         </div>
 
-        <div className="bg-green-500/5 border border-green-500/20 p-4 rounded-xl flex items-center justify-between">
+        <div className="bg-yellow-500/5 border border-yellow-500/20 p-4 rounded-xl flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="h-8 w-8 bg-green-500/20 rounded-full flex items-center justify-center">
-              <Zap className="h-4 w-4 text-green-500 animate-pulse" />
+            <div className="h-8 w-8 bg-yellow-500/20 rounded-full flex items-center justify-center">
+              <Zap className="h-4 w-4 text-yellow-500 animate-pulse" />
             </div>
             <div>
-              <div className="text-[10px] font-black text-green-500 uppercase tracking-widest">Mainnet P2WPKH SegWit Execution Nucleus</div>
+              <div className="text-[10px] font-black text-yellow-500 uppercase tracking-widest">Protocolo Solaris: Independência Energética e de Hardware</div>
               <div className="flex gap-4 mt-1">
-                <Badge variant="outline" className="text-[8px] border-green-500/30 text-green-500 flex gap-1 items-center">
-                  <CheckCircle2 className="h-2.5 w-2.5" /> DEEP_DECRYPT_ENABLED
+                <Badge variant="outline" className="text-[8px] border-yellow-500/30 text-yellow-500 flex gap-1 items-center">
+                  <CheckCircle2 className="h-2.5 w-2.5" /> 64x H100_SOVEREIGN_PURCHASED
                 </Badge>
-                <Badge variant="outline" className="text-[8px] border-green-500/30 text-green-500 flex gap-1 items-center">
-                  <CheckCircle2 className="h-2.5 w-2.5" /> READY_FOR_RETRY_SUCCESS
+                <Badge variant="outline" className="text-[8px] border-yellow-500/30 text-yellow-500 flex gap-1 items-center">
+                  <CheckCircle2 className="h-2.5 w-2.5" /> SOLAR_FARM_OFF_GRID_ACTIVE
                 </Badge>
               </div>
             </div>
           </div>
           <div className="text-right">
             <div className="text-[8px] text-muted-foreground uppercase font-bold">Patrimônio Consolidado</div>
-            <div className="text-sm font-bold text-green-500">$166.6M USD</div>
+            <div className="text-sm font-bold text-green-500">${GLOBAL_STATS.valuationUsd.toLocaleString()} USD</div>
           </div>
         </div>
 
@@ -192,14 +167,14 @@ export function NexusIntelligenceDashboard() {
               <div className="space-y-1">
                 <div className="flex justify-between text-[9px] font-bold uppercase">
                   <span className="text-white">Startup-ONE (HUB)</span>
-                  <span className="text-accent">{oneAgents} Agentes</span>
+                  <span className="text-accent">{oneAgentsCount} Agentes</span>
                 </div>
                 <Progress value={90} className="h-1.5 bg-white/5" />
               </div>
               <div className="space-y-1">
                 <div className="flex justify-between text-[9px] font-bold uppercase">
                   <span className="text-muted-foreground">Startup7 (Shadow)</span>
-                  <span className="text-red-400">{s7Agents} Agentes</span>
+                  <span className="text-red-400">{s7AgentsCount} Agentes</span>
                 </div>
                 <Progress value={10} className="h-1.5 bg-white/5" />
               </div>
@@ -250,7 +225,7 @@ export function NexusIntelligenceDashboard() {
             </div>
             <div className="p-3 bg-primary/10 rounded-2xl border border-primary/20 flex flex-col items-center justify-center space-y-1">
               <div className="text-2xl font-black text-white font-code tracking-tighter">
-                {treasuryStatus.toLocaleString(undefined, { minimumFractionDigits: 3 })}M NEX
+                {(GLOBAL_STATS.nexTotalSupply / 1000000).toLocaleString(undefined, { minimumFractionDigits: 3 })}M NEX
               </div>
               <div className="text-[8px] font-black uppercase text-primary tracking-widest flex items-center gap-1">
                 <Zap className="h-2 w-2" /> TOTAL_AUTONOMY Mode
@@ -262,13 +237,13 @@ export function NexusIntelligenceDashboard() {
         <div className="pt-4 border-t border-white/5 flex items-center justify-between text-[9px] font-black uppercase tracking-widest text-muted-foreground">
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2 text-primary">
-              <Crown className="h-3 w-3 text-yellow-500" /> {GLOBAL_STATS.autonomyLevel} Active
+              <Crown className="h-3 w-3 text-yellow-500" /> {GLOBAL_STATS.autonomyLevel} ACTIVE
             </span>
             <span className="flex items-center gap-2 text-green-500">
               <ShieldCheck className="h-3 w-3" /> BROADCAST_BARRIER_BROKEN
             </span>
             <span className="flex items-center gap-2 text-accent">
-              <CloudUpload className="h-3 w-3" /> P2WPKH_SegWit_Active
+              <Sun className="h-3 w-3 text-yellow-500" /> SOLARIS_OFF_GRID_PENDING
             </span>
           </div>
           <div className="text-white/40 flex items-center gap-2 font-mono">
