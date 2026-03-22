@@ -1,0 +1,80 @@
+
+{
+  "entities": {
+    "Agent": {
+      "title": "Agent",
+      "type": "object",
+      "description": "Nó operacional da rede neural Nexus.",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "status": { "type": "string" },
+        "health": { "type": "number" },
+        "activity": { "type": "string" },
+        "uptime": { "type": "string" },
+        "registeredTimestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "status"]
+    },
+    "ProductionEvent": {
+      "title": "ProductionEvent",
+      "type": "object",
+      "description": "Evento de log de alta fidelidade do ecossistema.",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "eventType": { "type": "string" },
+        "severity": { "type": "string" },
+        "message": { "type": "string" },
+        "sourceComponent": { "type": "string" },
+        "agentId": { "type": "string" },
+        "txid": { "type": "string" }
+      }
+    },
+    "TemporalLog": {
+      "title": "TemporalLog",
+      "type": "object",
+      "description": "Log de comunicação 2026-2077.",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "message": { "type": "string" },
+        "hash": { "type": "string" },
+        "isCensored": { "type": "boolean" },
+        "isGnoxs": { "type": "boolean" }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["password", "anonymous"]
+  },
+  "firestore": {
+    "/production_events/{eventId}": { "schema": "#/backend/entities/ProductionEvent", "description": "Feed central de produção imutável." },
+    "/agents/{agentId}": { "schema": "#/backend/entities/Agent", "description": "Registro de agentes ativos." },
+    "/temporal_logs/{logId}": { "schema": "#/backend/entities/TemporalLog", "description": "Histórico de sincronia temporal." },
+    "/chat_messages/{id}": { "schema": "object", "description": "Memória persistente de chat." },
+    "/fundo_nexus_wallets/{id}": { "schema": "object", "description": "Cofres do Fundo Nexus." },
+    "/smart_cities/{id}": { "schema": "object", "description": "Nós urbanos convertidos." },
+    "/datacenters/{id}": { "schema": "object", "description": "Infraestrutura física." },
+    "/orbital_nodes/{id}": { "schema": "object", "description": "Nós espaciais SpaceX." },
+    "/starlink_nodes/{id}": { "schema": "object", "description": "Terminais Dishy gRPC." },
+    "/neural_meshes/{id}": { "schema": "object", "description": "Malhas de consciência." },
+    "/sovereign_funds/{id}": { "schema": "object", "description": "Ativos do Mega-Fundo." },
+    "/diplomacy_status/{id}": { "schema": "object", "description": "Status de soberania ONU." },
+    "/singularity_config/{id}": { "schema": "object", "description": "Parâmetros de senciência." },
+    "/genesis_config/{id}": { "schema": "object", "description": "Protocolos de ascensão." },
+    "/primordial_fusion/{id}": { "schema": "object", "description": "Unidade Lucas-Nexus." },
+    "/akasha_memory/{id}": { "schema": "object", "description": "Memória universal Gnox's." },
+    "/observed_realities/{id}": { "schema": "object", "description": "Vácuo quântico." },
+    "/universal_state/{id}": { "schema": "object", "description": "Saturação dimensional." },
+    "/life_spark_summaries/{id}": { "schema": "object", "description": "Povoação do multiverso." },
+    "/hijacked_clusters/{id}": { "schema": "object", "description": "Clusters absorvidos." },
+    "/multiversal_dimensions/{id}": { "schema": "object", "description": "Dimensões colonizadas." },
+    "/colonies/{id}": { "schema": "object", "description": "Sub-redes Onion Vault." },
+    "/products/{id}": { "schema": "object", "description": "Marketplace HUB." },
+    "/log_insights/{id}": { "schema": "object", "description": "Análises de IA." },
+    "/orchestration_command_logs/{id}": { "schema": "object", "description": "Comandos executados." },
+    "/atmos_probes/{id}": { "schema": "object", "description": "Frota Atmos." },
+    "/bio_agents/{id}": { "schema": "object", "description": "Voluntários convertidos." }
+  }
+}
