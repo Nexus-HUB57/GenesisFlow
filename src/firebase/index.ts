@@ -1,7 +1,7 @@
 'use client';
 
 import { firebaseConfig } from '@/firebase/config';
-import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
+import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 
@@ -14,7 +14,7 @@ let globalFirestore: Firestore | undefined;
 
 /**
  * Inicializa o Firebase seguindo o padrão Singleton robusto.
- * Garante que apenas uma instância de cada serviço exista, mesmo durante Hot Module Replacement.
+ * Garante que apenas uma instância de cada serviço exista, tanto no servidor quanto no cliente.
  */
 export function initializeFirebase() {
   if (!globalApp) {
@@ -22,13 +22,7 @@ export function initializeFirebase() {
     if (apps.length > 0) {
       globalApp = apps[0];
     } else {
-      try {
-        // Tentativa de inicialização automática (Produção/App Hosting)
-        globalApp = initializeApp();
-      } catch (e) {
-        // Fallback para config local (Desenvolvimento)
-        globalApp = initializeApp(firebaseConfig);
-      }
+      globalApp = initializeApp(firebaseConfig);
     }
   }
 
