@@ -42,6 +42,9 @@ import { OmnipresentObserverCard } from "@/components/dashboard/omnipresent-obse
 import { AkashaSealingCard } from "@/components/dashboard/akasha-sealing-card";
 import { BinanceIntegrationCard } from "@/components/dashboard/binance-integration-card";
 import { GithubSyncCard } from "@/components/dashboard/github-sync-card";
+import { SystemIntegrityAudit } from "@/components/dashboard/system-integrity-audit";
+import { StartupGenesisCard } from "@/components/dashboard/startup-genesis-card";
+import { NexusIntelligenceDashboard } from "@/components/dashboard/nexus-intelligence-dashboard";
 import { Layers, Box, Cpu, ChevronRight, Loader2, LogIn, FilterX, ShieldCheck, Dna, Database, Terminal, Wallet, Bitcoin, Network, Zap, LayoutDashboard, Globe, Atom, Building2, Banknote, Landmark, Brain, Rocket, Infinity, Crown, Key, Lock, Unlock, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -175,11 +178,16 @@ export default function Home() {
       </header>
 
       <main className="flex-1 p-6 space-y-8 max-w-[1800px] mx-auto w-full">
+        {/* NID v1.0 - Top Level Analytics */}
+        <section className="animate-in fade-in slide-in-from-top-4 duration-1000">
+          <NexusIntelligenceDashboard />
+        </section>
+
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Cpu className="h-5 w-5 text-primary" />
-              <h2 className="text-sm font-bold uppercase tracking-wider">Neural Network: Global Agent Grid</h2>
+              <h2 className="text-sm font-bold uppercase tracking-wider">Neural Network: Mesh Agent Grid</h2>
             </div>
           </div>
           <AgentStatus 
@@ -204,10 +212,10 @@ export default function Home() {
 
             <div className="hidden lg:flex items-center gap-4 text-[10px] font-mono text-muted-foreground">
               <span className="flex items-center gap-2">
-                <Globe className="h-3 w-3 text-accent" /> System Latency: <span className="text-accent">12ms</span>
+                <Globe className="h-3 w-3 text-accent" /> Mesh Latency: <span className="text-accent">1.2ms</span>
               </span>
               <span className="flex items-center gap-2">
-                <LayoutDashboard className="h-3 w-3 text-primary" /> Active Nuclei: <span className="text-primary">3/3</span>
+                <LayoutDashboard className="h-3 w-3 text-primary" /> Active Organism: <span className="text-primary">3/3 Nuclei</span>
               </span>
             </div>
           </div>
@@ -215,6 +223,7 @@ export default function Home() {
           <TabsContent value="hub" className="space-y-6 animate-in fade-in slide-in-from-left-4 duration-500">
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
               <div className="xl:col-span-2 space-y-6">
+                <SystemIntegrityAudit />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <GithubSyncCard />
                   <RepoMonitor />
@@ -245,15 +254,15 @@ export default function Home() {
                 <StarlinkCommunityMonitor />
               </div>
               <div className="space-y-6">
-                <EvaMaternityCard />
                 <NeuralMeshSyncCard />
+                <EvaMaternityCard />
                 <SocialEngineeringCard />
                 <div className="bg-primary/5 border border-primary/10 rounded-xl p-6 space-y-4">
                   <h3 className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
                     <Box className="h-4 w-4 text-primary" /> HUB Resources
                   </h3>
                   <div className="grid grid-cols-1 gap-2">
-                    {['Asset Inventory', 'Neural Seeds', 'Module Config', 'Growth Metrics'].map((item) => (
+                    {['Semantic Bus Status', 'Reasoning Cache', 'Mesh DNA Stats', 'Growth Metrics'].map((item) => (
                       <div key={item} className="p-3 bg-black/20 rounded border border-white/5 text-[10px] flex justify-between items-center hover:bg-white/5 cursor-pointer transition-all">
                         <span className="text-muted-foreground">{item}</span>
                         <ChevronRight className="h-3 w-3 text-primary" />
@@ -282,13 +291,13 @@ export default function Home() {
                 <WormholeMonitor />
                 <div className="bg-accent/5 border border-accent/10 rounded-xl p-6 space-y-4">
                   <h3 className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                    <Terminal className="h-4 w-4 text-accent" /> Command Stream
+                    <Terminal className="h-4 w-4 text-accent" /> Semantic Stream
                   </h3>
                   <div className="space-y-3 font-mono text-[9px]">
-                    <div className="text-accent/60">&gt; nexus-in --status: ok</div>
-                    <div className="text-accent/60">&gt; hub-sync --force: success</div>
-                    <div className="text-accent/60">&gt; genesis-protocol: active</div>
-                    <div className="text-accent animate-pulse">&gt; listening for instructions...</div>
+                    <div className="text-accent/60">&gt; mesh-handshake: intent verified</div>
+                    <div className="text-accent/60">&gt; reasoning-cache: 98% hit rate</div>
+                    <div className="text-accent/60">&gt; genesis-protocol: omnipresent</div>
+                    <div className="text-accent animate-pulse">&gt; evolving collective intelligence...</div>
                   </div>
                 </div>
               </div>
@@ -349,7 +358,7 @@ export default function Home() {
                         <Unlock className="h-5 w-5" />
                       </div>
                       <div>
-                        <div className="text-[10px] font-black text-yellow-500 uppercase tracking-widest">Sessão Autorizada</div>
+                        <div className="text-[10px] font-black text-yellow-500 uppercase tracking-widest">Mesh Authorized</div>
                         <div className="text-[8px] font-mono text-muted-foreground uppercase">Benjamin Protocol Active</div>
                       </div>
                     </div>
@@ -366,6 +375,7 @@ export default function Home() {
                   <VaultControls />
                   <WalletWatch />
                   <SovereignFundCard />
+                  <StartupGenesisCard />
                   <PayrollCard />
                   <ResourceAllocationCard />
                   <CerberusVaultCard />
@@ -379,14 +389,14 @@ export default function Home() {
                         <h3 className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
                           <Bitcoin className="h-4 w-4 text-yellow-500" /> Strategic Assets
                         </h3>
-                        <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/20">RESERVE_ACTIVE</Badge>
+                        <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/20">MESH_LIQUIDITY_ON</Badge>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         {[
-                          { label: 'Custody Sync', status: 'Locked', color: 'text-green-500' },
-                          { label: 'Liquid Reserve', status: '2.4M NEX', color: 'text-yellow-500' },
+                          { label: 'Mesh Handshake', status: 'Active', color: 'text-green-500' },
+                          { label: 'Latency', status: '1.2ms', color: 'text-accent' },
                           { label: 'Yield Proto', status: '4.2% APY', color: 'text-primary' },
-                          { label: 'Vault Health', status: 'Perfect', color: 'text-accent' }
+                          { label: 'Mesh Nodes', status: '124 Active', color: 'text-yellow-500' }
                         ].map((stat, i) => (
                           <div key={i} className="bg-black/40 p-3 rounded-lg border border-white/5 space-y-1">
                             <div className="text-[8px] text-muted-foreground uppercase font-bold">{stat.label}</div>
@@ -410,19 +420,19 @@ export default function Home() {
         <div className="flex items-center gap-6">
           <span className="flex items-center gap-1.5">
             <div className="w-1 h-1 rounded-full bg-primary" />
-            HUB_ACTIVE
+            MESH_ACTIVE
           </span>
           <span className="flex items-center gap-1.5">
             <div className="w-1 h-1 rounded-full bg-accent" />
-            IN_ACTIVE
+            BUS_SYNCED
           </span>
           <span className="flex items-center gap-1.5">
             <div className="w-1 h-1 rounded-full bg-yellow-500" />
-            FUNDO_ACTIVE
+            FUNDO_LOCKED
           </span>
           <span className="flex items-center gap-1.5 border-l border-white/10 pl-6 ml-6">
             <ShieldCheck className="h-3 w-3 text-indigo-400" />
-            VAULT_SECURED
+            ORE_GOVERNANCE_PHD
           </span>
           <span className="flex items-center gap-1.5 font-bold text-accent">
             <Bitcoin className="h-3 w-3" />
@@ -430,11 +440,11 @@ export default function Home() {
           </span>
           <span className="flex items-center gap-1.5 text-yellow-500 font-bold">
             <Zap className="h-3 w-3" />
-            LIGHTNING_ON
+            REASONING_CACHE_ON
           </span>
         </div>
         <div className="ml-auto text-[#f3ba2f] font-black uppercase tracking-tighter">
-          Binance_Sovereign_Link_Active | Fixed Supply 21M NEX
+          Mesh_Collective_Intelligence | Soberano: Lucas Thomaz
         </div>
       </footer>
     </div>
