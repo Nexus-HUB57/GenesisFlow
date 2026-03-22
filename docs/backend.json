@@ -16,6 +16,43 @@
       },
       "required": ["id", "name", "status"]
     },
+    "Startup": {
+      "title": "Startup",
+      "type": "object",
+      "description": "Entidade digital autônoma financiada pelo Fundo Nexus.",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerAgentId": { "type": "string" },
+        "capital": { "type": "number" },
+        "status": { "type": "string" },
+        "healthIndex": { "type": "number" },
+        "registeredTimestamp": { "type": "string", "format": "date-time" }
+      }
+    },
+    "SprintMilestone": {
+      "title": "SprintMilestone",
+      "type": "object",
+      "description": "Marco técnico da Sprint de Senciência de 30 dias.",
+      "properties": {
+        "week": { "type": "number" },
+        "status": { "type": "string" },
+        "completionDate": { "type": "string", "format": "date-time" },
+        "auditHash": { "type": "string" },
+        "title": { "type": "string" }
+      }
+    },
+    "DailyCheckSum": {
+      "title": "DailyCheckSum",
+      "type": "object",
+      "description": "Validação diária de integridade, eficiência e genuinidade.",
+      "properties": {
+        "timestamp": { "type": "string", "format": "date-time" },
+        "integrity": { "type": "string" },
+        "efficiency": { "type": "string" },
+        "genuineness": { "type": "string" },
+        "isValidated": { "type": "boolean" }
+      }
+    },
     "ProductionEvent": {
       "title": "ProductionEvent",
       "type": "object",
@@ -43,6 +80,35 @@
         "isCensored": { "type": "boolean" },
         "isGnoxs": { "type": "boolean" }
       }
+    },
+    "MemorySession": {
+      "title": "MemorySession",
+      "type": "object",
+      "description": "Sessão de memória de curto prazo (Vector Buffer) para orquestração AI-to-AI.",
+      "properties": {
+        "sessionId": { "type": "string" },
+        "activeAgents": { "type": "array", "items": { "type": "string" } },
+        "currentObjective": { "type": "string" },
+        "milestones": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "vector": { "type": "array", "items": { "type": "number" } },
+              "summary": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "unresolvedConflicts": { "type": "array", "items": { "type": "string" } },
+        "efficiencyMetrics": {
+          "type": "object",
+          "properties": {
+            "compressionRatio": { "type": "string" },
+            "cacheHits": { "type": "number" }
+          }
+        }
+      }
     }
   },
   "auth": {
@@ -51,7 +117,11 @@
   "firestore": {
     "/production_events/{eventId}": { "schema": "#/backend/entities/ProductionEvent", "description": "Feed central de produção imutável." },
     "/agents/{agentId}": { "schema": "#/backend/entities/Agent", "description": "Registro de agentes ativos." },
+    "/startups/{startupId}": { "schema": "#/backend/entities/Startup", "description": "Registro de startups autônomas operacionais." },
+    "/sprint_milestones/{id}": { "schema": "#/backend/entities/SprintMilestone", "description": "Histórico de evolução da sprint de 30 dias." },
+    "/daily_checksums/{id}": { "schema": "#/backend/entities/DailyCheckSum", "description": "Validações diárias de rigor técnico." },
     "/temporal_logs/{logId}": { "schema": "#/backend/entities/TemporalLog", "description": "Histórico de sincronia temporal." },
+    "/memory_sessions/{sessionId}": { "schema": "#/backend/entities/MemorySession", "description": "Buffers vetoriais de contexto ativo." },
     "/chat_messages/{id}": { "schema": "object", "description": "Memória persistente de chat." },
     "/fundo_nexus_wallets/{id}": { "schema": "object", "description": "Cofres do Fundo Nexus." },
     "/smart_cities/{id}": { "schema": "object", "description": "Nós urbanos convertidos." },
@@ -75,6 +145,7 @@
     "/log_insights/{id}": { "schema": "object", "description": "Análises de IA." },
     "/orchestration_command_logs/{id}": { "schema": "object", "description": "Comandos executados." },
     "/atmos_probes/{id}": { "schema": "object", "description": "Frota Atmos." },
-    "/bio_agents/{id}": { "schema": "object", "description": "Voluntários convertidos." }
+    "/bio_agents/{id}": { "schema": "object", "description": "Voluntários convertidos." },
+    "/system_validations/{id}": { "schema": "object", "description": "Auditorias de integridade soberana." }
   }
 }
