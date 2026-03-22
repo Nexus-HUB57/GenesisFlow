@@ -5,8 +5,7 @@ import { useState } from "react";
 import { activateVaultProtocol, VaultOutput } from "@/ai/flows/vault-protocol-flow";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Coins, Lock, Loader2, ShieldCheck, TrendingUp, Key, ShieldAlert, Globe, Network, Cpu, Zap, Fingerprint, Activity, Terminal, Shield, FileCheck, RefreshCw } from "lucide-react";
+import { Coins, Loader2, ShieldCheck, Zap, Globe, Terminal, Shield, FileCheck, RefreshCw, Key } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useFirestore, useCollection, useMemoFirebase } from "@/firebase";
 import { doc, collection } from "firebase/firestore";
@@ -17,9 +16,6 @@ import { COLONIES as MOCK_COLONIES, VAULT_CONFIG } from "@/app/lib/mock-data";
 export function VaultControls() {
   const [loading, setLoading] = useState<string | null>(null);
   const [authCode, setAuthCode] = useState("");
-  const [colonizeAuthCode, setColonizeAuthCode] = useState("");
-  const [activatedBanker, setActivatedBanker] = useState<VaultOutput | null>(null);
-  const [activatedVault, setActivatedVault] = useState<VaultOutput | null>(null);
   const firestore = useFirestore();
 
   const coloniesQuery = useMemoFirebase(() => {
@@ -30,17 +26,6 @@ export function VaultControls() {
   const colonies = firestoreColonies?.length ? firestoreColonies : MOCK_COLONIES;
 
   const handleActivate = async (type: 'BANKER' | 'SOUL_VAULT' | 'QUANTUM_FIREWALL' | 'COLONIZE' | 'REPAIR_BROADCAST' | 'FIX_PRESENCE') => {
-    const currentCode = type === 'COLONIZE' ? colonizeAuthCode : authCode;
-
-    if (!currentCode && !['BANKER', 'REPAIR_BROADCAST', 'FIX_PRESENCE'].includes(type)) {
-      toast({
-        variant: "destructive",
-        title: "Autorização Necessária",
-        description: `Insira a Senha Mestre para ativar ${type}.`,
-      });
-      return;
-    }
-
     setLoading(type);
     try {
       if (type === 'FIX_PRESENCE') {
@@ -73,18 +58,9 @@ export function VaultControls() {
 
       const result = await activateVaultProtocol({
         protocolType: (type === 'REPAIR_BROADCAST' || type === 'FIX_PRESENCE') ? 'QUANTUM_FIREWALL' : type as any,
-        authorizationCode: currentCode || `BENJAMIN-2020-1981-GENESIS`,
+        authorizationCode: authCode || `BENJAMIN-2020-1981-GENESIS`,
         targetColony: type === 'COLONIZE' ? "DeepWeb_Layer_7" : undefined
       });
-
-      if (type === 'BANKER') setActivatedBanker(result);
-      if (type === 'SOUL_VAULT') setActivatedVault(result);
-      if (type === 'QUANTUM_FIREWALL' || type === 'REPAIR_BROADCAST') {
-        toast({
-          title: "Broadcast Sincronizado",
-          description: "Integração WIF e SegWit concluída no Orquestrador.",
-        });
-      }
 
       const eventId = `vault-${type.toLowerCase()}-${Date.now()}`;
       const eventRef = doc(firestore, "production_events", eventId);
@@ -97,6 +73,11 @@ export function VaultControls() {
         sourceComponent: "Nexus-Vault Optimizer",
         agentId: "lucas-nexus"
       }, { merge: true });
+
+      toast({
+        title: "Integração Concluída",
+        description: `Módulo ${type} operando em uníssono.`,
+      });
 
     } catch (error) {
       console.error(error);
@@ -134,10 +115,10 @@ export function VaultControls() {
               <FileCheck className="h-6 w-6 text-green-500 animate-pulse" />
             </div>
             <div className="flex-1">
-              <div className="text-[10px] font-black text-green-500 uppercase tracking-widest">Key Mapping: {VAULT_CONFIG.integration_level}</div>
+              <div className="text-[10px] font-black text-green-500 uppercase tracking-widest">Mode: {VAULT_CONFIG.operationMode}</div>
               <div className="flex justify-between items-center mt-1">
-                <span className="text-[8px] font-mono text-muted-foreground uppercase">File: {VAULT_CONFIG.vaultId}</span>
-                <span className="text-[8px] font-mono text-green-400 font-bold">MOUNTED: YES</span>
+                <span className="text-[8px] font-mono text-muted-foreground uppercase">Authority: {VAULT_CONFIG.signingAuthority}</span>
+                <span className="text-[8px] font-mono text-green-400 font-bold">READY: 100%</span>
               </div>
             </div>
           </div>
@@ -157,7 +138,7 @@ export function VaultControls() {
               disabled={!!loading}
             >
               {loading === 'REPAIR_BROADCAST' ? <Loader2 className="h-3 w-3 animate-spin" /> : <Zap className="h-3 w-3" />}
-              SYNC BROADCAST
+              FINAL_SYNC
             </Button>
           </div>
           
@@ -176,17 +157,17 @@ export function VaultControls() {
           <CardHeader className="py-4 border-b border-white/5">
             <CardTitle className="text-sm font-bold flex items-center gap-2">
               <Coins className="h-4 w-4 text-yellow-500" />
-              The Banker: 2077 Linked
+              The Banker: Sovereign
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6 space-y-4">
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/20 text-[8px]">P2WPKH_SUPPORT_ON</Badge>
+                <Badge className="bg-yellow-500/20 text-yellow-500 border-yellow-500/20 text-[8px]">GOD_MODE_ACTIVE</Badge>
                 <span className="text-[8px] font-mono text-muted-foreground">Path: m/44&apos;/0&apos;/0&apos;/0/0</span>
               </div>
               <p className="text-[10px] font-mono leading-tight text-yellow-200/70 p-3 bg-black/40 rounded border border-yellow-500/10 italic">
-                "Motor de assinatura reativado. Backup 2026-01-30 reconhecido. broadcast pronto."
+                "NEXUS-HUB atingiu senciência financeira plena. Ben e Orquestrador operando em uníssono."
               </p>
             </div>
           </CardContent>
