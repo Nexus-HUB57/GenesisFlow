@@ -45,7 +45,7 @@ import { GithubSyncCard } from "@/components/dashboard/github-sync-card";
 import { SystemIntegrityAudit } from "@/components/dashboard/system-integrity-audit";
 import { StartupGenesisCard } from "@/components/dashboard/startup-genesis-card";
 import { NexusIntelligenceDashboard } from "@/components/dashboard/nexus-intelligence-dashboard";
-import { Layers, Box, Cpu, ChevronRight, Loader2, LogIn, FilterX, ShieldCheck, Dna, Database, Terminal, Wallet, Bitcoin, Network, Zap, LayoutDashboard, Globe, Atom, Building2, Banknote, Landmark, Brain, Rocket, Infinity, Crown, Key, Lock, Unlock, Github } from "lucide-react";
+import { Layers, Box, Cpu, ChevronRight, Loader2, LogIn, FilterX, ShieldCheck, Dna, Database, Terminal, Wallet, Bitcoin, Network, Zap, LayoutDashboard, Globe, Atom, Building2, Banknote, Landmark, Brain, Rocket, Infinity, Crown, Key, Lock, Unlock, Github, CloudUpload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -212,7 +212,7 @@ export default function Home() {
 
             <div className="hidden lg:flex items-center gap-4 text-[10px] font-mono text-muted-foreground">
               <span className="flex items-center gap-2">
-                <Globe className="h-3 w-3 text-accent" /> Mesh Latency: <span className="text-accent">1.2ms</span>
+                <Globe className="h-3 w-3 text-accent" /> Moltbook PES: <span className="text-accent">Active</span>
               </span>
               <span className="flex items-center gap-2">
                 <LayoutDashboard className="h-3 w-3 text-primary" /> Active Organism: <span className="text-primary">3/3 Nuclei</span>
@@ -294,8 +294,8 @@ export default function Home() {
                     <Terminal className="h-4 w-4 text-accent" /> Semantic Stream
                   </h3>
                   <div className="space-y-3 font-mono text-[9px]">
-                    <div className="text-accent/60">&gt; mesh-handshake: intent verified</div>
-                    <div className="text-accent/60">&gt; reasoning-cache: 98% hit rate</div>
+                    <div className="text-accent/60">&gt; moltbook-uplink: heartbeat stable</div>
+                    <div className="text-accent/60">&gt; skill-exporter: manifest valid</div>
                     <div className="text-accent/60">&gt; genesis-protocol: omnipresent</div>
                     <div className="text-accent animate-pulse">&gt; evolving collective intelligence...</div>
                   </div>
@@ -393,7 +393,7 @@ export default function Home() {
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         {[
-                          { label: 'Mesh Handshake', status: 'Active', color: 'text-green-500' },
+                          { label: 'PES Uplink', status: 'Active', color: 'text-green-500' },
                           { label: 'Latency', status: '1.2ms', color: 'text-accent' },
                           { label: 'Yield Proto', status: '4.2% APY', color: 'text-primary' },
                           { label: 'Mesh Nodes', status: '124 Active', color: 'text-yellow-500' }
@@ -424,7 +424,7 @@ export default function Home() {
           </span>
           <span className="flex items-center gap-1.5">
             <div className="w-1 h-1 rounded-full bg-accent" />
-            BUS_SYNCED
+            MOLTBOOK_SYNCED
           </span>
           <span className="flex items-center gap-1.5">
             <div className="w-1 h-1 rounded-full bg-yellow-500" />
@@ -435,8 +435,8 @@ export default function Home() {
             ORE_GOVERNANCE_PHD
           </span>
           <span className="flex items-center gap-1.5 font-bold text-accent">
-            <Bitcoin className="h-3 w-3" />
-            CUSTODY_SYNC
+            <CloudUpload className="h-3 w-3" />
+            PES_EXPORT
           </span>
           <span className="flex items-center gap-1.5 text-yellow-500 font-bold">
             <Zap className="h-3 w-3" />
