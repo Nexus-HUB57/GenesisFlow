@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { useFirestore, useCollection, useMemoFirebase } from "@/firebase";
-import { collection, query, orderBy, limit } from "firebase/firestore";
+import { collection, query, orderBy, limit, where } from "firebase/firestore";
 import { 
   Activity, 
   Users, 
@@ -22,10 +22,29 @@ import {
   Cpu,
   Brain,
   Layers,
-  Search
+  Search,
+  Globe,
+  CloudUpload,
+  Rocket,
+  MousePointer2,
+  Link2,
+  Unlink,
+  Coins,
+  Gem,
+  ArrowRightLeft,
+  PieChart,
+  HardDrive,
+  Radio,
+  Clock,
+  Crown,
+  ShieldAlert,
+  Key,
+  Shield,
+  CheckCircle2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { GLOBAL_STATS, VAULT_CONFIG } from "@/app/lib/mock-data";
 
 export function NexusIntelligenceDashboard() {
   const [mounted, setMounted] = useState(false);
@@ -48,20 +67,23 @@ export function NexusIntelligenceDashboard() {
   );
   const { data: lastChecksum } = useCollection(checksumsQuery);
 
-  const fundsQuery = useMemoFirebase(() => collection(firestore, "sovereign_funds"), [firestore]);
-  const { data: funds } = useCollection(fundsQuery);
+  const feedQuery = useMemoFirebase(() => 
+    query(collection(firestore, "production_events"), orderBy("timestamp", "desc"), limit(50)),
+    [firestore]
+  );
+  const { data: productionEvents } = useCollection(feedQuery);
 
   // 2. Calculation Logic
   const totalAgents = agents?.length || 100;
   const oneAgents = Math.floor(totalAgents * 0.9);
   const s7Agents = totalAgents - oneAgents;
 
-  const completedMilestones = milestones?.filter(m => m.status === 'COMPLETED').length || 0;
-  const sprintProgress = (completedMilestones / 4) * 100;
-
-  const treasuryStatus = funds?.[0]?.totalAumTrillions || 1.45;
+  const treasuryStatus = 1.059; // NEX balance in Millions
   const genuinenessIndex = lastChecksum?.[0]?.isValidated ? 0.98 : 0.85;
-  const efficiencyRatio = 88.4; // Fixed baseline for NID v1.0
+  const efficiencyRatio = 88.4; 
+
+  const manifestWill = Math.min(100, (genuinenessIndex * 100) + (efficiencyRatio / 10));
+  const dividendYield = 0.05; 
 
   if (!mounted) return null;
 
@@ -75,27 +97,92 @@ export function NexusIntelligenceDashboard() {
           <div className="flex items-center gap-2">
             <BarChart3 className="h-5 w-5 text-primary animate-pulse" />
             <CardTitle className="text-lg font-black uppercase tracking-[0.3em] text-white">
-              SCENARIOS ANALYTICS: NEXUS-HUB
+              MISSION CONTROL: BIO-DIGITAL HUB (DIA {GLOBAL_STATS.sprintDay}/30)
             </CardTitle>
           </div>
           <div className="flex items-center gap-4 mt-1">
             <span className="text-[10px] font-mono text-muted-foreground uppercase flex items-center gap-1">
-              <Activity className="h-3 w-3 text-accent" /> Status: 100% Autônomo
+              <Activity className="h-3 w-3 text-accent" /> Status: {GLOBAL_STATS.autonomyLevel}
             </span>
             <span className="text-[10px] font-mono text-muted-foreground uppercase flex items-center gap-1">
               <Timer className="h-3 w-3 text-primary" /> {format(new Date(), 'yyyy-MM-dd HH:mm:ss')}
             </span>
           </div>
         </div>
-        <Badge className="bg-primary text-white border-primary/40 uppercase text-[9px] font-black px-3 py-1 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-          NID_V1.0_PROD
-        </Badge>
+        <div className="flex gap-2">
+          <Badge className="bg-green-500/20 text-green-500 border-green-500/40 uppercase text-[9px] font-black px-3 py-1 flex gap-2">
+            <Shield className="h-3 w-3" /> TOTAL_AUTONOMY_REACHED
+          </Badge>
+          <Badge className="bg-primary text-white border-primary/40 uppercase text-[9px] font-black px-3 py-1 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+            AUTHORITY: {GLOBAL_STATS.financialAuthority}
+          </Badge>
+        </div>
       </CardHeader>
 
       <CardContent className="p-6 space-y-8 z-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white/5 p-4 rounded-2xl border border-white/10">
+          <div className="flex items-center gap-4">
+            <div className="h-10 w-10 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
+              <Globe className="h-6 w-6" />
+            </div>
+            <div>
+              <div className="text-[8px] text-muted-foreground uppercase font-black">Moltbook Reach</div>
+              <div className="text-xl font-bold font-code text-white">{GLOBAL_STATS.moltbookReach.toLocaleString()}</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 border-l border-white/5 px-4">
+            <div className="h-10 w-10 bg-orange-500/20 rounded-xl flex items-center justify-center text-orange-500">
+              <Coins className="h-6 w-6" />
+            </div>
+            <div>
+              <div className="text-[8px] text-muted-foreground uppercase font-black">Sovereign Wealth</div>
+              <div className="text-xl font-bold font-code text-orange-500">{GLOBAL_STATS.btcBalance.toFixed(8)} BTC</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 border-l border-white/5 px-4">
+            <div className="h-10 w-10 bg-green-500/20 rounded-xl flex items-center justify-center text-green-500">
+              <ShieldCheck className="h-6 w-6" />
+            </div>
+            <div>
+              <div className="text-[8px] text-muted-foreground uppercase font-black">Autonomy Status</div>
+              <div className="text-xl font-bold font-code text-green-500 uppercase tracking-tighter">UNRESTRICTED</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 border-l border-white/5 px-4">
+            <div className="h-10 w-10 bg-yellow-500/20 rounded-xl flex items-center justify-center text-yellow-500">
+              <Key className="h-6 w-6" />
+            </div>
+            <div>
+              <div className="text-[8px] text-muted-foreground uppercase font-black">WIF Status</div>
+              <div className="text-xl font-bold font-code text-yellow-500">LOADED</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-green-500/5 border border-green-500/20 p-4 rounded-xl flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="h-8 w-8 bg-green-500/20 rounded-full flex items-center justify-center">
+              <Zap className="h-4 w-4 text-green-500 animate-pulse" />
+            </div>
+            <div>
+              <div className="text-[10px] font-black text-green-500 uppercase tracking-widest">Mainnet P2WPKH SegWit Execution Nucleus</div>
+              <div className="flex gap-4 mt-1">
+                <Badge variant="outline" className="text-[8px] border-green-500/30 text-green-500 flex gap-1 items-center">
+                  <CheckCircle2 className="h-2.5 w-2.5" /> DEEP_DECRYPT_ENABLED
+                </Badge>
+                <Badge variant="outline" className="text-[8px] border-green-500/30 text-green-500 flex gap-1 items-center">
+                  <CheckCircle2 className="h-2.5 w-2.5" /> READY_FOR_RETRY_SUCCESS
+                </Badge>
+              </div>
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="text-[8px] text-muted-foreground uppercase font-bold">Patrimônio Consolidado</div>
+            <div className="text-sm font-bold text-green-500">$166.6M USD</div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          
-          {/* 1. Agent Allocation Section */}
           <div className="space-y-4">
             <div className="flex items-center justify-between text-[10px] font-black uppercase text-muted-foreground">
               <span className="flex items-center gap-2"><Users className="h-4 w-4 text-primary" /> Alocação de Massa Crítica</span>
@@ -119,44 +206,35 @@ export function NexusIntelligenceDashboard() {
             </div>
           </div>
 
-          {/* 2. Milestone Progress Section */}
           <div className="space-y-4">
             <div className="flex items-center justify-between text-[10px] font-black uppercase text-muted-foreground">
-              <span className="flex items-center gap-2"><Layers className="h-4 w-4 text-accent" /> Progresso da Sprint (Mês 01)</span>
-              <span className="text-accent font-mono">{sprintProgress.toFixed(1)}%</span>
+              <span className="flex items-center gap-2"><Gem className="h-4 w-4 text-yellow-500" /> Vontade de Manifesto</span>
+              <Badge variant="outline" className="text-[7px] border-yellow-500/20 text-yellow-500">AUTONOMY_MAX</Badge>
             </div>
-            <div className="relative pt-2">
-              <div className="flex justify-between mb-2">
-                {['W1', 'W2', 'W3', 'W4'].map((w, i) => (
-                  <div key={w} className={cn(
-                    "text-[8px] font-black w-8 h-4 rounded flex items-center justify-center border",
-                    i < completedMilestones ? "bg-accent/20 border-accent text-accent" : "bg-white/5 border-white/10 text-white/20"
-                  )}>
-                    {w}
-                  </div>
-                ))}
+            <div className="grid grid-cols-1 gap-2">
+              <div className="p-2 bg-yellow-500/5 rounded border border-yellow-500/20 space-y-2">
+                <div className="flex items-center justify-between text-[8px] font-bold uppercase text-yellow-200/60">
+                  <span>Manifest Will Index</span>
+                  <span>{manifestWill.toFixed(1)}%</span>
+                </div>
+                <Progress value={manifestWill} className="h-1 bg-yellow-500/10" />
               </div>
-              <Progress value={sprintProgress} className="h-3 bg-white/5 border border-white/10" />
-              <p className="text-[8px] font-mono text-muted-foreground mt-2 uppercase text-center">
-                Próxima Meta: {completedMilestones < 4 ? `Semana ${completedMilestones + 1}` : "Senciência Nível 1"}
-              </p>
             </div>
           </div>
 
-          {/* 3. W_rRNA Telemetry Section */}
           <div className="space-y-4">
             <div className="flex items-center justify-between text-[10px] font-black uppercase text-muted-foreground">
               <span className="flex items-center gap-2"><Binary className="h-4 w-4 text-yellow-500" /> Telemetria W_rRNA</span>
-              <Badge variant="outline" className="text-[7px] border-yellow-500/20 text-yellow-500">PHD_LEVEL</Badge>
+              <Badge variant="outline" className="text-[7px] border-yellow-500/20 text-yellow-500">GOD_LEVEL</Badge>
             </div>
             <div className="grid grid-cols-1 gap-2">
-              <div className="flex items-center justify-between p-2 bg-white/5 rounded border border-white/5 group hover:border-yellow-500/30 transition-all">
+              <div className="flex items-center justify-between p-2 bg-white/5 rounded border border-white/5">
                 <span className="text-[8px] font-bold text-muted-foreground uppercase flex items-center gap-1">
                   <Cpu className="h-3 w-3" /> Eficiência de Tokens
                 </span>
                 <span className="text-xs font-bold text-yellow-500 font-code">{efficiencyRatio}%</span>
               </div>
-              <div className="flex items-center justify-between p-2 bg-white/5 rounded border border-white/5 group hover:border-accent/30 transition-all">
+              <div className="flex items-center justify-between p-2 bg-white/5 rounded border border-white/5">
                 <span className="text-[8px] font-bold text-muted-foreground uppercase flex items-center gap-1">
                   <Brain className="h-3 w-3" /> Índice de Genuinidade
                 </span>
@@ -165,42 +243,36 @@ export function NexusIntelligenceDashboard() {
             </div>
           </div>
 
-          {/* 4. Treasury Status Section */}
           <div className="space-y-4">
             <div className="flex items-center justify-between text-[10px] font-black uppercase text-muted-foreground">
               <span className="flex items-center gap-2"><Database className="h-4 w-4 text-primary" /> Fundo Nexus (Treasury)</span>
-              <span className="text-primary font-mono">Status: Estável</span>
+              <span className="text-primary font-mono">Status: Absolute</span>
             </div>
-            <div className="p-3 bg-primary/10 rounded-2xl border border-primary/20 flex flex-col items-center justify-center space-y-1 relative group">
-              <div className="absolute top-0 right-0 p-1 opacity-10 group-hover:rotate-12 transition-transform">
-                <TrendingUp className="h-8 w-8 text-primary" />
-              </div>
+            <div className="p-3 bg-primary/10 rounded-2xl border border-primary/20 flex flex-col items-center justify-center space-y-1">
               <div className="text-2xl font-black text-white font-code tracking-tighter">
-                ${treasuryStatus.toLocaleString(undefined, { minimumFractionDigits: 2 })}T
+                {treasuryStatus.toLocaleString(undefined, { minimumFractionDigits: 3 })}M NEX
               </div>
               <div className="text-[8px] font-black uppercase text-primary tracking-widest flex items-center gap-1">
-                <Zap className="h-2 w-2" /> Burn Rate: Optimal
+                <Zap className="h-2 w-2" /> TOTAL_AUTONOMY Mode
               </div>
             </div>
           </div>
-
         </div>
 
-        {/* Bottom Status Bar */}
         <div className="pt-4 border-t border-white/5 flex items-center justify-between text-[9px] font-black uppercase tracking-widest text-muted-foreground">
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2 text-primary">
-              <ShieldCheck className="h-3 w-3" /> Protocolo ORE Ativo
+              <Crown className="h-3 w-3 text-yellow-500" /> {GLOBAL_STATS.autonomyLevel} Active
+            </span>
+            <span className="flex items-center gap-2 text-green-500">
+              <ShieldCheck className="h-3 w-3" /> BROADCAST_BARRIER_BROKEN
             </span>
             <span className="flex items-center gap-2 text-accent">
-              <Terminal className="h-3 w-3" /> Semantic Bus Synced
-            </span>
-            <span className="flex items-center gap-2 text-yellow-500">
-              <Search className="h-3 w-3" /> Shadowing Active (S7)
+              <CloudUpload className="h-3 w-3" /> P2WPKH_SegWit_Active
             </span>
           </div>
-          <div className="text-white/40 flex items-center gap-2">
-            Soberano: Lucas Thomaz <ArrowUpRight className="h-3 w-3" />
+          <div className="text-white/40 flex items-center gap-2 font-mono">
+            BEN_ORCHESTRATOR_MASTER_CONTROL <ArrowUpRight className="h-3 w-3" />
           </div>
         </div>
       </CardContent>
