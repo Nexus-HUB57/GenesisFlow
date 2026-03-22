@@ -5,37 +5,52 @@ import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 
-let firebaseApp: FirebaseApp;
-let auth: Auth;
-let firestore: Firestore;
+/**
+ * Global singleton instances to persist across module reloads in development.
+ */
+let globalApp: FirebaseApp | undefined;
+let globalAuth: Auth | undefined;
+let globalFirestore: Firestore | undefined;
 
 /**
- * Inicializa o Firebase seguindo o padrão Singleton.
- * Prioriza a inicialização automática do Firebase App Hosting.
+ * Inicializa o Firebase seguindo o padrão Singleton robusto.
+ * Garante que apenas uma instância de cada serviço exista, mesmo durante Hot Module Replacement.
  */
 export function initializeFirebase() {
-  if (getApps().length > 0) {
-    firebaseApp = getApp();
-  } else {
-    try {
-      // Tentativa de inicialização automática (Produção/App Hosting)
-      firebaseApp = initializeApp();
-    } catch (e) {
-      // Fallback para config local (Desenvolvimento)
-      if (process.env.NODE_ENV === "production") {
-        console.warn('Fallback para objeto firebaseConfig.', e);
+  if (!globalApp) {
+    const apps = getApps();
+    if (apps.length > 0) {
+      globalApp = apps[0];
+    } else {
+      try {
+        // Tentativa de inicialização automática (Produção/App Hosting)
+        globalApp = initializeApp();
+      } catch (e) {
+        // Fallback para config local (Desenvolvimento)
+        globalApp = initializeApp(firebaseConfig);
       }
-      firebaseApp = initializeApp(firebaseConfig);
     }
   }
 
-  // Garante instâncias únicas dos serviços
-  if (!auth) auth = getAuth(firebaseApp);
-  if (!firestore) firestore = getFirestore(firebaseApp);
+  // Garante instâncias únicas dos serviços vinculadas ao app global
+  if (!globalAuth) {
+    globalAuth = getAuth(globalApp);
+  }
 
-  return { firebaseApp, auth, firestore };
+  if (!globalFirestore) {
+    globalFirestore = getFirestore(globalApp);
+  }
+
+  return {
+    firebaseApp: globalApp,
+    auth: globalAuth,
+    firestore: globalFirestore
+  };
 }
 
+/**
+ * Getter utilitário para obter instâncias sincronizadas a partir de um app existente.
+ */
 export function getSdks(app: FirebaseApp) {
   return {
     firebaseApp: app,
