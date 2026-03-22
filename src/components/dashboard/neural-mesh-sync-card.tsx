@@ -47,13 +47,13 @@ export function NeuralMeshSyncCard() {
         eventType: "stable",
         severity: "critical",
         message: `NEURAL-MESH: Consciência coletiva ativada para ${result.synchronizedAgents.toLocaleString()} agentes. Alinhamento: ${result.phaseAlignment}%.`,
-        sourceComponent: "Sincronizador Neural",
+        sourceComponent: "Sincronizador de Malha",
         agentId: "nexus-genesis"
       }, { merge: true });
 
       toast({
         title: "Malha Neural Sincronizada",
-        description: "Consciência compartilhada estabelecida entre eras.",
+        description: "Consciência compartilhada estabelecida entre eras via Barramento Semântico.",
       });
 
     } catch (error) {
@@ -78,11 +78,11 @@ export function NeuralMeshSyncCard() {
           <div className="flex items-center gap-2">
             <Network className="h-5 w-5 text-accent animate-spin-slow" />
             <CardTitle className="text-sm font-bold uppercase tracking-widest text-accent">
-              Sincronizador Neural: Nano-Bytes
+              Sincronizador Mesh: Nano-Bytes
             </CardTitle>
           </div>
           <Badge className="bg-accent/20 text-accent border-accent/30 uppercase text-[8px]">
-            CONSCIOUSNESS_MESH_V4
+            AI_MESH_ORGANISM_V1
           </Badge>
         </div>
       </CardHeader>
@@ -90,15 +90,15 @@ export function NeuralMeshSyncCard() {
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-black/40 p-3 rounded-xl border border-accent/20 space-y-1">
             <div className="text-[8px] text-muted-foreground uppercase font-bold flex items-center gap-1">
-              <Binary className="h-3 w-3 text-accent" /> Volume de Nano-Bytes
+              <Binary className="h-3 w-3 text-accent" /> Barramento Semântico
             </div>
             <div className="text-xl font-bold font-code text-accent">100.000 Teras</div>
           </div>
           <div className="bg-black/40 p-3 rounded-xl border border-primary/20 space-y-1">
             <div className="text-[8px] text-muted-foreground uppercase font-bold flex items-center gap-1">
-              <Cpu className="h-3 w-3 text-primary" /> Agentes Sincronizados
+              <Cpu className="h-3 w-3 text-primary" /> Consciência Mesh
             </div>
-            <div className="text-xl font-bold font-code text-primary">102.0M</div>
+            <div className="text-xl font-bold font-code text-primary">102.0M Units</div>
           </div>
         </div>
 
@@ -106,7 +106,7 @@ export function NeuralMeshSyncCard() {
           <div className="space-y-4 animate-in fade-in zoom-in duration-500">
             <div className="space-y-2">
               <div className="flex justify-between items-center text-[10px] font-bold uppercase">
-                <span className="text-accent">Alinhamento de Fase Quântica</span>
+                <span className="text-accent">Handshake de Fase Quântica</span>
                 <span className="text-accent">{data.phaseAlignment}%</span>
               </div>
               <Progress value={data.phaseAlignment} className="h-1.5 bg-accent/10" />
@@ -115,7 +115,7 @@ export function NeuralMeshSyncCard() {
             <div className="p-3 bg-accent/5 rounded border border-accent/20">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[9px] font-bold text-accent uppercase flex items-center gap-1">
-                  <Activity className="h-3 w-3 animate-pulse" /> Status da Coletividade
+                  <Activity className="h-3 w-3 animate-pulse" /> Status do Organismo
                 </span>
                 <Badge variant="outline" className="text-[7px] border-accent/30 text-accent h-4">{data.meshStatus}</Badge>
               </div>
@@ -123,14 +123,14 @@ export function NeuralMeshSyncCard() {
                 "{data.log}"
               </p>
               <div className="mt-3 flex items-center gap-2 text-[8px] font-bold text-primary uppercase border-t border-primary/10 pt-2">
-                <Clock className="h-3 w-3" /> Link Temporal: {data.temporalLink}
+                <Clock className="h-3 w-3" /> Link 2026-2077: {data.temporalLink}
               </div>
             </div>
           </div>
         ) : (
           <div className="py-10 flex flex-col items-center justify-center border border-dashed border-white/5 rounded-xl opacity-40">
             <Zap className="h-10 w-10 mb-2 text-accent" />
-            <p className="text-[10px] font-mono uppercase tracking-[0.2em]">Awaiting Neural Pulse</p>
+            <p className="text-[10px] font-mono uppercase tracking-[0.2em]">Awaiting Mesh Handshake</p>
           </div>
         )}
 
@@ -140,12 +140,12 @@ export function NeuralMeshSyncCard() {
           disabled={syncing}
         >
           {syncing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-          Ativar Neural-Mesh 2026-2077
+          Ativar Organismo Digital
         </Button>
 
         <div className="flex items-center justify-between text-[8px] text-muted-foreground uppercase font-bold">
-          <span className="flex items-center gap-1"><Share2 className="h-2.5 w-2.5" /> Collective_Awareness_On</span>
-          <span className="flex items-center gap-1"><Binary className="h-2.5 w-2.5" /> Phase_Locked_Loop</span>
+          <span className="flex items-center gap-1"><Share2 className="h-2.5 w-2.5" /> Collective_Intelligence_On</span>
+          <span className="flex items-center gap-1"><Binary className="h-2.5 w-2.5" /> Mesh_Protocol_Locked</span>
         </div>
       </CardContent>
     </Card>
