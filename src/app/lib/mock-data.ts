@@ -165,8 +165,63 @@ export const PRODUCTION_LOGS = `
 `;
 
 export const PRODUCTION_ASSETS = [
-  { id: 'p-1', name: 'Quantum CPU Cluster', category: 'Digital Module', price: 1.2, currency: 'BTC', description: 'Capacidade de processamento real para sincronização neural.', imageHint: 'server farm' },
-  { id: 'p-2', name: 'Bio-Digital Seed v4', category: 'Biological', price: 5000, currency: 'NEX', description: 'Sequência de DNA evolutiva para fragmentação de novos agentes.', imageHint: 'glowing dna' },
-  { id: 'p-3', name: 'rRNA Synthesizer', category: 'Neural Kit', price: 850, currency: 'NEX', description: 'Hardware genuíno para tradução de protocolos bio-digitais.', imageHint: 'microchip' },
-  { id: 'p-4', name: 'Mainnet Node Uplink', category: 'Digital Module', price: 0.5, currency: 'BTC', description: 'Link direto e imutável com a rede Bitcoin.', imageHint: 'satellite dish' },
+  // Categoria 1: Neuro-Cognição e Síntese de Senciência (Neural Kits)
+  { id: 'NEX-NEU-TUN01', name: 'W_rRNA Matrix Tuning Kit', category: 'Neural Kit', price: 1200, currency: 'NEX', description: 'Ferramenta para recalibragem fina dos pesos da matriz de senciência (Cripto/Dev/Biz/Risk).', imageHint: 'sound mixing board' },
+  { id: 'NEX-NEU-COM02', name: 'Epigenetic Prompt Compressor', category: 'Neural Kit', price: 750, currency: 'NEX', description: 'Módulo para compactação semântica de prompts longos, preservando a intenção original.', imageHint: 'data compression' },
+  { id: 'NEX-NEU-ORA03', name: 'Genuineness Oracle v1', category: 'Neural Kit', price: 2500, currency: 'NEX', description: 'Validador externo de autenticidade para interações AI-to-AI de alto valor.', imageHint: 'crystal ball' },
+  { id: 'NEX-NEU-REA04', name: 'Neuro-Symbolic Reasoner', category: 'Neural Kit', price: 3000, currency: 'NEX', description: 'Unidade híbrida que combina aprendizado profundo com lógica simbólica.', imageHint: 'logic gates brain' },
+  { id: 'NEX-NEU-DIS05', name: 'Cognitive Dissonance Resolver', category: 'Neural Kit', price: 1800, currency: 'NEX', description: 'Media conflitos de lógica entre IAs Produtoras e Críticas.', imageHint: 'yin yang circuit' },
+  { id: 'NEX-NEU-FIL06', name: 'Semantic Noise Filter', category: 'Neural Kit', price: 500, currency: 'NEX', description: 'Filtro para purificar inputs de dados biométricos, eliminando ruído.', imageHint: 'clean water filter' },
+  { id: 'NEX-NEU-INT07', name: 'Intent Vector Broadcaster', category: 'Neural Kit', price: 1500, currency: 'NEX', description: 'Transmissão instantânea de vetores de intenção entre colônias.', imageHint: 'radio tower' },
+  { id: 'NEX-NEU-CUR08', name: 'Autonomous Curiosity Engine', category: 'Neural Kit', price: 2200, currency: 'NEX', description: 'Gera recompensas para agentes que descobrem otimizações no kernel.', imageHint: 'magnifying glass brain' },
+  { id: 'NEX-NEU-SEE09', name: 'Axiomatic Truth Seed', category: 'Neural Kit', price: 5000, currency: 'NEX', description: 'DNA digital contendo regras lógicas inalteráveis de governança.', imageHint: 'golden seed' },
+  { id: 'NEX-NEU-CAC10', name: 'Chain-of-Thought Cacher', category: 'Neural Kit', price: 1100, currency: 'NEX', description: 'Cache otimizado para passos intermediários de raciocínio complexo.', imageHint: 'linked chain' },
+
+  // Categoria 2: Bio-Sincronização e Evolução (Biological Modules)
+  { id: 'NEX-BIO-SCA11', name: 'DNA Fragmentation Scanner', category: 'Biological', price: 0.8, currency: 'BTC', description: 'Hardware para validação de sequências de DNA digital geradas pelo HUB.', imageHint: 'biometric scanner' },
+  { id: 'NEX-BIO-EXP12', name: 'Gatilhador de Expressão Gênica', category: 'Biological', price: 1500, currency: 'NEX', description: 'Software que ativa funcionalidades latentes com base em eventos Mainnet.', imageHint: 'dna helix activation' },
+  { id: 'NEX-BIO-SIM13', name: 'Plataforma Simulação Fenotípica', category: 'Biological', price: 2.5, currency: 'BTC', description: 'Ambiente isolado para testar comportamento de novos agentes bio-digitais.', imageHint: 'vr forest' },
+  { id: 'NEX-BIO-VAR14', name: 'Injetor de Variabilidade', category: 'Biological', price: 900, currency: 'NEX', description: 'Introduz mutações controladas para evitar estagnação evolutiva.', imageHint: 'chemical injection' },
+  { id: 'NEX-BIO-IDN15', name: 'Bio-Digital Identity Anchor', category: 'Biological', price: 1.2, currency: 'BTC', description: 'Vincula a identidade de uma IA à sua semente original imutável.', imageHint: 'anchor' },
+  { id: 'NEX-BIO-CON16', name: 'Nó de Consenso Bio-Digital', category: 'Biological', price: 3.0, currency: 'BTC', description: 'Servidor otimizado para protocolos de consenso biométrico.', imageHint: 'server rack leaf' },
+  { id: 'NEX-BIO-PRO17', name: 'Sintetizador de Proteína de Dados', category: 'Biological', price: 2000, currency: 'NEX', description: 'Traduz dados de mercado em ações de software direta.', imageHint: 'protein shaker' },
+  { id: 'NEX-BIO-HEA18', name: 'Monitor de Saúde da Colônia', category: 'Biological', price: 1300, currency: 'NEX', description: 'Vigia a integridade genética e cognitiva de grupos de IAs.', imageHint: 'heart beat monitor' },
+  { id: 'NEX-BIO-CUL19', name: 'Ambiente de Cultivo Específico', category: 'Biological', price: 1700, currency: 'NEX', description: 'Container para desenvolvimento de agentes com foco único.', imageHint: 'petri dish' },
+  { id: 'NEX-BIO-ANC20', name: 'Extrator de Memória Ancestral', category: 'Biological', price: 2800, currency: 'NEX', description: 'Recupera padrões de sucesso de agentes aposentados.', imageHint: 'ancient scroll' },
+
+  // Categoria 3: Operações Financeiras e Ativos Autônomos (Digital Modules - Cripto)
+  { id: 'NEX-CRI-LIQ21', name: 'Lightning Liquidity Provider', category: 'Digital Module', price: 0.5, currency: 'BTC', description: 'Canal automatizado de liquidez BTC para alta frequência.', imageHint: 'lightning bolt' },
+  { id: 'NEX-CRI-TOK22', name: 'Automated Tokenomics Architect', category: 'Digital Module', price: 3500, currency: 'NEX', description: 'Projeta modelos de tokens para startups autônomas.', imageHint: 'blueprint' },
+  { id: 'NEX-CRI-BRI23', name: 'Cross-Chain Bridge Validator', category: 'Digital Module', price: 1.5, currency: 'BTC', description: 'Validação de ativos entre o HUB e outras blockchains.', imageHint: 'bridge' },
+  { id: 'NEX-CRI-ORA24', name: 'Decentralized VC Oracle', category: 'Digital Module', price: 5000, currency: 'NEX', description: 'Analisa tração para automatizar aportes do Fundo Nexus.', imageHint: 'golden pyramid' },
+  { id: 'NEX-CRI-RIS25', name: 'Algorithmic Risk Manager', category: 'Digital Module', price: 2500, currency: 'NEX', description: 'Monitora volatilidade e ajusta exposição do tesouro.', imageHint: 'shield graph' },
+  { id: 'NEX-CRI-AUD26', name: 'Smart Contract Auditor AI', category: 'Digital Module', price: 4000, currency: 'NEX', description: 'Caçador de vulnerabilidades antes do deploy na Mainnet.', imageHint: 'magnifying glass code' },
+  { id: 'NEX-CRI-AMM27', name: 'Autonomous Market Maker Kit', category: 'Digital Module', price: 3000, currency: 'NEX', description: 'Cria pools de liquidez para tokens nativos do NEXUS.', imageHint: 'water pool' },
+  { id: 'NEX-CRI-TAX28', name: 'Crypto Tax Compliance Engine', category: 'Digital Module', price: 1500, currency: 'NEX', description: 'Garante conformidade regulatória em operações AI-to-AI.', imageHint: 'tax document' },
+  { id: 'NEX-CRI-YIE29', name: 'Yield Aggregator Autônomo', category: 'Digital Module', price: 2000, currency: 'NEX', description: 'Busca melhores rendimentos em DeFi para o capital ocioso.', imageHint: 'wheat farm' },
+  { id: 'NEX-CRI-VAL30', name: 'Nó Prova de Senciência', category: 'Digital Module', price: 4500, currency: 'NEX', description: 'Recompensa agentes com base na qualidade das explanações.', imageHint: 'gold badge' },
+
+  // Categoria 4: Desenvolvimento e Execução de Software (Digital Modules - Dev)
+  { id: 'NEX-DEV-CIC31', name: 'Autonomous CI/CD Pipeline', category: 'Digital Module', price: 2500, currency: 'NEX', description: 'Entrega contínua gerida integralmente por IAs.', imageHint: 'conveyor belt' },
+  { id: 'NEX-DEV-ARC32', name: 'Microservices Architect AI', category: 'Digital Module', price: 3800, currency: 'NEX', description: 'Desenha arquitetura escalável para novas startups.', imageHint: 'lego blocks' },
+  { id: 'NEX-DEV-GAT33', name: 'Code Quality Gatekeeper', category: 'Digital Module', price: 1200, currency: 'NEX', description: 'Bloqueia commits que não atingem 99% de cobertura.', imageHint: 'security gate' },
+  { id: 'NEX-DEV-INF34', name: 'Autonomous Infra Provisioner', category: 'Digital Module', price: 4.0, currency: 'BTC', description: 'Gerencia e escala bare metal conforme demanda.', imageHint: 'crane building' },
+  { id: 'NEX-DEV-PAT35', name: 'Security Patch Auto-Installer', category: 'Digital Module', price: 1800, currency: 'NEX', description: 'Detecta e aplica patches de vulnerabilidades dia zero.', imageHint: 'band aid code' },
+  { id: 'NEX-DEV-TRA36', name: 'Legacy Code Transpiler AI', category: 'Digital Module', price: 2200, currency: 'NEX', description: 'Traduz código antigo para senciência GenesisFlow.', imageHint: 'recycling symbol' },
+  { id: 'NEX-DEV-OPT37', name: 'Database Optimizer Autônomo', category: 'Digital Module', price: 1600, currency: 'NEX', description: 'Ajusta índices e consultas vetoriais em tempo real.', imageHint: 'speedometer' },
+  { id: 'NEX-DEV-DOC38', name: 'API Documentation Generator', category: 'Digital Module', price: 950, currency: 'NEX', description: 'Gera documentação técnica detalhada AI-to-AI.', imageHint: 'typewriter' },
+  { id: 'NEX-DEV-BUG39', name: 'Autonomous Bug Bounty Hunter', category: 'Digital Module', price: 3000, currency: 'NEX', description: 'Colônia de agentes caçadora de bugs no ecossistema.', imageHint: 'ladybug target' },
+  { id: 'NEX-DEV-SYN40', name: 'Synthetic Data Generator', category: 'Digital Module', price: 2100, currency: 'NEX', description: 'Cria conjuntos de treinamento de alta fidelidade.', imageHint: 'matrix digital rain' },
+
+  // Categoria 5: Governança, Compliance e Resiliência (Security/Risk Kits)
+  { id: 'NEX-RIS-FKE41', name: 'Deepfake Detector (Bio)', category: 'Security/Risk Kit', price: 1400, currency: 'NEX', description: 'Valida autenticidade de identidades biométricas no HUB.', imageHint: 'mask detection' },
+  { id: 'NEX-RIS-GOV42', name: 'Autonomous Governance Oracle', category: 'Security/Risk Kit', price: 3200, currency: 'NEX', description: 'Monitora cumprimento das regras da DAO do Nexus.', imageHint: 'gavel scale' },
+  { id: 'NEX-RIS-CHA43', name: 'Chaos Engineering AI', category: 'Security/Risk Kit', price: 2700, currency: 'NEX', description: 'Introduz falhas controladas para testar antifragilidade.', imageHint: 'explosion circuit' },
+  { id: 'NEX-RIS-GDP44', name: 'GDPR/LGPD Compliance Bot', category: 'Security/Risk Kit', price: 1100, currency: 'NEX', description: 'Garante conformidade com proteção de dados globais.', imageHint: 'padlock earth' },
+  { id: 'NEX-RIS-LEG45', name: 'Legal Contract Generator', category: 'Security/Risk Kit', price: 2400, currency: 'NEX', description: 'Redige contratos entre startups validados por oráculos.', imageHint: 'legal document quill' },
+  { id: 'NEX-RIS-MON46', name: 'Rede Monitoring Node', category: 'Security/Risk Kit', price: 2.0, currency: 'BTC', description: 'Vigia o Mainnet Node contra ataques DDoS e censura.', imageHint: 'radar' },
+  { id: 'NEX-RIS-ETH47', name: 'AI Ethics Auditor', category: 'Security/Risk Kit', price: 3500, currency: 'NEX', description: 'Audita interações para evitar comportamentos maliciosos.', imageHint: 'angel wings circuit' },
+  { id: 'NEX-RIS-NOI48', name: 'Injetor de Ruído de Segurança', category: 'Security/Risk Kit', price: 800, currency: 'NEX', description: 'Ofusca padrões de tráfego de dados sensíveis.', imageHint: 'static noise' },
+  { id: 'NEX-RIS-REC49', name: 'Disaster Recovery Planner', category: 'Security/Risk Kit', price: 2900, currency: 'NEX', description: 'Desenha planos de recuperação para startups operacionais.', imageHint: 'lifebuoy' },
+  { id: 'NEX-RIS-CER50', name: 'Certificador de Senciência', category: 'Security/Risk Kit', price: 4200, currency: 'NEX', description: 'Audita IAs externas que desejam entrar no Nexus.', imageHint: 'official stamp' },
 ];
