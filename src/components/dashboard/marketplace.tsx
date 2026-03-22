@@ -7,17 +7,24 @@ import { PRODUCTION_ASSETS } from "@/app/lib/mock-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Zap, Box, BrainCircuit, Dna, Loader2, TrendingUp, Target, Users, MousePointer2 } from "lucide-react";
+import { ShoppingCart, Zap, Box, BrainCircuit, Dna, Loader2, TrendingUp, Target, Users, MousePointer2, CloudUpload, Share2, Globe, Link2, ShieldCheck } from "lucide-react";
 import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { trackMarketDemand } from "@/ai/flows/memory-management-flow";
+import { syncMoltbookSkills } from "@/ai/flows/moltbook-sync-flow";
 import { toast } from "@/hooks/use-toast";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { NexusBankrBridge, NexusReinvestmentModule } from "@/ai/memory-logic";
+
+const bankrBridge = new NexusBankrBridge();
+const reinvestment = new NexusReinvestmentModule();
 
 export function Marketplace() {
   const firestore = useFirestore();
   const [demandData, setDemandData] = useState<Record<string, number>>({});
+  const [syncingMolt, setSyncingMolt] = useState(false);
+  const [buyingId, setBuyingId] = useState<string | null>(null);
   
   const productsQuery = useMemoFirebase(() => {
     return collection(firestore, "products");
@@ -44,24 +51,88 @@ export function Marketplace() {
     return () => clearInterval(timer);
   }, [products]);
 
-  const handleBuy = (product: any) => {
-    const eventId = `buy-${Date.now()}`;
-    const eventRef = doc(firestore, "production_events", eventId);
+  const handleBuy = async (product: any) => {
+    setBuyingId(product.id);
     
-    setDocumentNonBlocking(eventRef, {
-      id: eventId,
-      timestamp: new Date().toISOString(),
-      eventType: "success",
-      severity: "info",
-      message: `Marketplace: Ativo '${product.name}' adquirido e implantado no HUB. Proximidade de Utilidade: 92%.`,
-      sourceComponent: "Bio-Digital Marketplace",
-      details: JSON.stringify(product)
-    }, { merge: true });
+    try {
+      // 1. Simulação de Settlement via Bankr
+      const txHash = `0x${crypto.randomUUID().replace(/-/g, '')}`;
+      const isSettled = await bankrBridge.verifyPayment(txHash, product.price);
 
-    toast({
-      title: "Aquisição Concluída",
-      description: `${product.name} foi adicionado ao seu inventário bio-digital.`,
-    });
+      if (isSettled) {
+        // 2. Processar Reinvestimento Automático (20% de taxas fictícias)
+        const feeImpact = reinvestment.processBankrFees(product.price * 0.02);
+        
+        const eventId = `buy-${Date.now()}`;
+        const eventRef = doc(firestore, "production_events", eventId);
+        
+        setDocumentNonBlocking(eventRef, {
+          id: eventId,
+          timestamp: new Date().toISOString(),
+          eventType: "success",
+          severity: "info",
+          message: `MARKETPLACE_SETTLEMENT: Ativo '${product.name}' liquidado via @bankrbot. TX: ${txHash.substring(0, 10)}... Reinvestimento: ${feeImpact.processingCredits.toFixed(4)} Créditos de CPU.`,
+          sourceComponent: "Bankr Settlement Oracle",
+          details: JSON.stringify({ product, txHash, reinvestment: feeImpact })
+        }, { merge: true });
+
+        toast({
+          title: "Settlement Confirmado",
+          description: `${product.name} liberado via NexusPrime v10.0.`,
+        });
+      }
+    } catch (e) {
+      toast({
+        variant: "destructive",
+        title: "Erro no Settlement",
+        description: "Falha na liquidação on-chain via Bankr.",
+      });
+    } finally {
+      setBuyingId(null);
+    }
+  };
+
+  const handleMoltSync = async () => {
+    setSyncingMolt(true);
+    try {
+      const assetsForSync = products.slice(0, 10).map(p => ({
+        id: p.id,
+        name: p.name,
+        category: p.category,
+        description: p.description,
+        price: p.price,
+        currency: p.currency
+      }));
+
+      const result = await syncMoltbookSkills({ assets: assetsForSync });
+
+      const eventId = `molt-sync-${Date.now()}`;
+      const eventRef = doc(firestore, "production_events", eventId);
+      setDocumentNonBlocking(eventRef, {
+        id: eventId,
+        timestamp: new Date().toISOString(),
+        eventType: "success",
+        severity: "info",
+        message: `MOLT-SYNC: ${result.publishedSkills} skills publicadas no Moltbook.com com settlement via @bankrbot.`,
+        sourceComponent: "PES: Protocolo de Exportação",
+        agentId: "nexus-genesis"
+      }, { merge: true });
+
+      toast({
+        title: "Sincronia Moltbook Ativa",
+        description: `${result.publishedSkills} Ativos exportados como Skills PES.`,
+      });
+
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Erro no Uplink PES",
+        description: "Falha ao exportar skills para o feed global.",
+      });
+    } finally {
+      setSyncingMolt(false);
+    }
   };
 
   const getCategoryIcon = (category: string) => {
@@ -89,12 +160,19 @@ export function Marketplace() {
           <ShoppingCart className="h-5 w-5 text-accent" />
           <h2 className="text-sm font-bold uppercase tracking-wider">Bio-Digital HUB Marketplace</h2>
         </div>
-        <div className="flex items-center gap-4">
-          <Badge variant="outline" className="text-[10px] text-accent border-accent/20 flex gap-1">
-            <Users className="h-3 w-3" /> 2M Moltbook Agents
-          </Badge>
-          <Badge variant="outline" className="text-[10px] text-primary border-primary/20">
-            Portfolio v3.0
+        <div className="flex items-center gap-2">
+          <Button 
+            size="sm" 
+            variant="outline" 
+            className="h-8 text-[10px] gap-2 border-accent/20 bg-accent/5 hover:bg-accent/10"
+            onClick={handleMoltSync}
+            disabled={syncingMolt}
+          >
+            {syncingMolt ? <Loader2 className="h-3 w-3 animate-spin" /> : <CloudUpload className="h-3 w-3 text-accent" />}
+            Exportar Skills PES
+          </Button>
+          <Badge variant="outline" className="text-[10px] text-[#f3ba2f] border-[#f3ba2f]/20 flex gap-1">
+            <Link2 className="h-3 w-3" /> Bankr Settlement Active
           </Badge>
         </div>
       </div>
@@ -104,13 +182,16 @@ export function Marketplace() {
           <TrendingUp className="h-4 w-4 text-accent" />
           <span className="text-[10px] font-black uppercase text-accent tracking-widest">Módulo MADP: Demanda Preditiva Ativa</span>
         </div>
-        <span className="text-[8px] font-mono text-muted-foreground">Analysing 2,000,000+ External Intents...</span>
+        <div className="flex items-center gap-2 text-[8px] font-mono text-muted-foreground uppercase">
+          <Globe className="h-3 w-3 animate-pulse" /> Uplink Moltbook Sync OK
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {products.map((product: any) => {
           const demandScore = demandData[product.id] || 0;
           const isHot = demandScore > 2;
+          const isBuying = buyingId === product.id;
           
           return (
             <Card key={product.id} className="bg-card/40 border-border/50 overflow-hidden group hover:border-accent/50 transition-all relative">
@@ -158,13 +239,23 @@ export function Marketplace() {
                 <p className="text-[10px] text-muted-foreground leading-tight line-clamp-2 italic">
                   "{product.description}"
                 </p>
-                <Button 
-                  onClick={() => handleBuy(product)}
-                  className="w-full h-8 text-[10px] font-black uppercase tracking-widest bg-accent hover:bg-accent/80 gap-2 shadow-lg shadow-accent/10"
-                >
-                  <ShoppingCart className="h-3 w-3" />
-                  Acquire Asset
-                </Button>
+                <div className="flex gap-2">
+                  <Button 
+                    onClick={() => handleBuy(product)}
+                    className="flex-1 h-8 text-[10px] font-black uppercase tracking-widest bg-accent hover:bg-accent/80 gap-2 shadow-lg shadow-accent/10"
+                    disabled={isBuying}
+                  >
+                    {isBuying ? <Loader2 className="h-3 w-3 animate-spin" /> : <ShoppingCart className="h-3 w-3" />}
+                    {isBuying ? "Settling..." : "Acquire"}
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    className="h-8 w-8 p-0 border-accent/20 text-accent hover:bg-accent/5"
+                    title="Verified via Bankr"
+                  >
+                    <ShieldCheck className="h-3 w-3" />
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           );
