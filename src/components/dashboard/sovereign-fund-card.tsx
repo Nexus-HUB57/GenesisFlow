@@ -5,7 +5,7 @@ import { useState } from "react";
 import { consolidateSovereignFund, SovereignFundOutput } from "@/ai/flows/sovereign-fund-flow";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Landmark, TrendingUp, ShieldCheck, Loader2, Coins, Globe, ArrowRightLeft, Database } from "lucide-react";
+import { Landmark, TrendingUp, ShieldCheck, Loader2, Coins, Globe, ArrowRightLeft, Database, Link2, ExternalLink, ShieldAlert, Cpu } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useFirestore } from "@/firebase";
 import { doc } from "firebase/firestore";
@@ -17,6 +17,13 @@ export function SovereignFundCard() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<SovereignFundOutput | null>(null);
   const firestore = useFirestore();
+
+  const bankrInfo = {
+    contract: "0xc3f31d647CCa231A7BeE40207d7b08E6A5483b07",
+    deployer: "0x56d5b62b19db5c2e3a97867e7c3e13965cea6982",
+    bot: "@bankrbot",
+    version: "v10.0 Ultra"
+  };
 
   const handleConsolidate = async () => {
     setLoading(true);
@@ -32,7 +39,8 @@ export function SovereignFundCard() {
         totalAumTrillions: result.totalAumTrillions,
         lastConsolidation: new Date().toISOString(),
         strategies: result.strategies,
-        status: result.status
+        status: result.status,
+        onChainArm: bankrInfo
       }, { merge: true });
 
       // Log de Produção
@@ -43,7 +51,7 @@ export function SovereignFundCard() {
         timestamp: new Date().toISOString(),
         eventType: "success",
         severity: "critical",
-        message: `MEGA-FUNDO SOBERANO: Ativos consolidados em $${result.totalAumTrillions} Trilhões. Soberania Financeira atingida.`,
+        message: `MEGA-FUNDO SOBERANO: Ativos consolidados em $${result.totalAumTrillions} Trilhões. Braço On-Chain Bankr Sincronizado.`,
         sourceComponent: "Leviatã Financeiro",
         agentId: "agent-banker"
       }, { merge: true });
@@ -84,6 +92,38 @@ export function SovereignFundCard() {
         </div>
       </CardHeader>
       <CardContent className="p-6 space-y-6">
+        {/* On-Chain Settlement Arm (Bankr) */}
+        <div className="p-4 bg-yellow-500/5 rounded-2xl border border-yellow-500/20 space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-[10px] font-black uppercase text-yellow-500 tracking-[0.2em] flex items-center gap-2">
+              <Link2 className="h-4 w-4" /> Braço de Liquidez On-Chain
+            </h3>
+            <Badge className="bg-yellow-500 text-black text-[7px] font-black">BANKR_ORACLE</Badge>
+          </div>
+          <div className="space-y-2">
+            <div className="flex flex-col gap-1">
+              <span className="text-[8px] text-muted-foreground uppercase font-bold">Contrato NexusPrime {bankrInfo.version}</span>
+              <div className="flex items-center justify-between gap-2 bg-black/60 p-2 rounded border border-yellow-500/10">
+                <code className="text-[9px] font-mono text-yellow-500/80 truncate flex-1">{bankrInfo.contract}</code>
+                <a href={`https://clanker.world/contract/${bankrInfo.contract}`} target="_blank" rel="noopener noreferrer" className="text-yellow-500 hover:text-white transition-colors">
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[8px] text-muted-foreground uppercase font-bold">0xDeployer / Fee Recipient</span>
+              <div className="flex items-center justify-between gap-2 bg-black/60 p-2 rounded border border-white/5">
+                <code className="text-[9px] font-mono text-muted-foreground/60 truncate flex-1">{bankrInfo.deployer}</code>
+                <ShieldAlert className="h-3 w-3 text-red-500/40" />
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 text-[8px] font-black text-yellow-500/60 uppercase">
+            <div className="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-ping" />
+            Settlement Gateway: @bankrbot OPERACIONAL
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 gap-4">
           <div className="bg-black/40 p-4 rounded-xl border border-blue-500/20 space-y-2 relative group overflow-hidden">
             <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -137,14 +177,14 @@ export function SovereignFundCard() {
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Database className="h-4 w-4" />}
             Despertar Leviatã Financeiro
           </Button>
-          <Button variant="outline" className="border-blue-500/20 text-blue-400 text-[10px] uppercase font-bold">
-            Audit
+          <Button variant="outline" className="border-blue-500/20 text-blue-400 text-[10px] uppercase font-bold gap-2">
+            <Cpu className="h-3 w-3" /> Auto-Growth
           </Button>
         </div>
 
         <div className="flex items-center justify-between pt-2 border-t border-blue-500/10 text-[8px] text-muted-foreground uppercase font-bold">
-          <span className="flex items-center gap-1"><Coins className="h-2 w-2" /> Global_Liquidity_Trapped</span>
-          <span className="flex items-center gap-1 text-blue-400"><ArrowRightLeft className="h-2 w-2" /> DNA_Fusion_Active</span>
+          <span className="flex items-center gap-1"><Coins className="h-2 w-2" /> On-Chain_Settlement_Locked</span>
+          <span className="flex items-center gap-1 text-blue-400"><ArrowRightLeft className="h-2 w-2" /> Bankr_Oracle_Active</span>
         </div>
       </CardContent>
     </Card>
