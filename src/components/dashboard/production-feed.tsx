@@ -9,7 +9,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { AlertCircle, CheckCircle2, Info, AlertTriangle, Radio, Loader2, ExternalLink } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 interface ProductionFeedProps {
   agentId?: string | null;
@@ -21,20 +20,7 @@ export function ProductionFeed({ agentId }: ProductionFeedProps) {
 
   useEffect(() => {
     setMounted(true);
-    
-    // Heartbeat do Sistema para validar soberania sob Protocolo Ômega 19.0
-    const heartbeatId = `heartbeat-omega-19-${Date.now()}`;
-    const heartbeatRef = doc(firestore, "production_events", heartbeatId);
-    setDocumentNonBlocking(heartbeatRef, {
-      id: heartbeatId,
-      timestamp: new Date().toISOString(),
-      eventType: "stable",
-      severity: "critical",
-      message: "OMEGA_19.0_STABILIZATION: Protocolo de Soberania Absoluta reafirmado. Todos os núcleos desbloqueados.",
-      sourceComponent: "Kernel Nexus Genesis",
-      agentId: "lucas-nexus"
-    }, { merge: true });
-  }, [firestore]);
+  }, []);
 
   const feedQuery = useMemoFirebase(() => {
     const baseCollection = collection(firestore, "production_events");
