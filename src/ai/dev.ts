@@ -36,3 +36,5 @@ import '@/ai/flows/github-sync-flow.ts';
 import '@/ai/flows/system-validation-flow.ts';
 import '@/ai/flows/memory-management-flow.ts';
 import '@/ai/flows/startup-genesis-flow.ts';
+import '@/ai/flows/moltbook-sync-flow.ts';
+import '@/ai/flows/dividend-distribution-flow.ts';
