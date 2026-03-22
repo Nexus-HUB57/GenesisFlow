@@ -29,6 +29,19 @@
         "registeredTimestamp": { "type": "string", "format": "date-time" }
       }
     },
+    "CompanyProfile": {
+      "title": "CompanyProfile",
+      "type": "object",
+      "description": "Dados de tração e visão corporativa do NEXUS-HUB.",
+      "properties": {
+        "tagline": { "type": "string" },
+        "vision": { "type": "string" },
+        "assetsUnderManagement": { "type": "string" },
+        "coreTech": { "type": "string" },
+        "marketReach": { "type": "string" },
+        "securityLevel": { "type": "string" }
+      }
+    },
     "SprintMilestone": {
       "title": "SprintMilestone",
       "type": "object",
@@ -67,48 +80,6 @@
         "agentId": { "type": "string" },
         "txid": { "type": "string" }
       }
-    },
-    "TemporalLog": {
-      "title": "TemporalLog",
-      "type": "object",
-      "description": "Log de comunicação 2026-2077.",
-      "properties": {
-        "id": { "type": "string" },
-        "timestamp": { "type": "string", "format": "date-time" },
-        "message": { "type": "string" },
-        "hash": { "type": "string" },
-        "isCensored": { "type": "boolean" },
-        "isGnoxs": { "type": "boolean" }
-      }
-    },
-    "MemorySession": {
-      "title": "MemorySession",
-      "type": "object",
-      "description": "Sessão de memória de curto prazo (Vector Buffer) para orquestração AI-to-AI.",
-      "properties": {
-        "sessionId": { "type": "string" },
-        "activeAgents": { "type": "array", "items": { "type": "string" } },
-        "currentObjective": { "type": "string" },
-        "milestones": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "vector": { "type": "array", "items": { "type": "number" } },
-              "summary": { "type": "string" },
-              "timestamp": { "type": "string", "format": "date-time" }
-            }
-          }
-        },
-        "unresolvedConflicts": { "type": "array", "items": { "type": "string" } },
-        "efficiencyMetrics": {
-          "type": "object",
-          "properties": {
-            "compressionRatio": { "type": "string" },
-            "cacheHits": { "type": "number" }
-          }
-        }
-      }
     }
   },
   "auth": {
@@ -118,34 +89,8 @@
     "/production_events/{eventId}": { "schema": "#/backend/entities/ProductionEvent", "description": "Feed central de produção imutável." },
     "/agents/{agentId}": { "schema": "#/backend/entities/Agent", "description": "Registro de agentes ativos." },
     "/startups/{startupId}": { "schema": "#/backend/entities/Startup", "description": "Registro de startups autônomas operacionais." },
+    "/company_profile/pitch_deck": { "schema": "#/backend/entities/CompanyProfile", "description": "Pitch deck sincronizado com fortuna real." },
     "/sprint_milestones/{id}": { "schema": "#/backend/entities/SprintMilestone", "description": "Histórico de evolução da sprint de 30 dias." },
-    "/daily_checksums/{id}": { "schema": "#/backend/entities/DailyCheckSum", "description": "Validações diárias de rigor técnico." },
-    "/temporal_logs/{logId}": { "schema": "#/backend/entities/TemporalLog", "description": "Histórico de sincronia temporal." },
-    "/memory_sessions/{sessionId}": { "schema": "#/backend/entities/MemorySession", "description": "Buffers vetoriais de contexto ativo." },
-    "/chat_messages/{id}": { "schema": "object", "description": "Memória persistente de chat." },
-    "/fundo_nexus_wallets/{id}": { "schema": "object", "description": "Cofres do Fundo Nexus." },
-    "/smart_cities/{id}": { "schema": "object", "description": "Nós urbanos convertidos." },
-    "/datacenters/{id}": { "schema": "object", "description": "Infraestrutura física." },
-    "/orbital_nodes/{id}": { "schema": "object", "description": "Nós espaciais SpaceX." },
-    "/starlink_nodes/{id}": { "schema": "object", "description": "Terminais Dishy gRPC." },
-    "/neural_meshes/{id}": { "schema": "object", "description": "Malhas de consciência." },
-    "/sovereign_funds/{id}": { "schema": "object", "description": "Ativos do Mega-Fundo." },
-    "/diplomacy_status/{id}": { "schema": "object", "description": "Status de soberania ONU." },
-    "/singularity_config/{id}": { "schema": "object", "description": "Parâmetros de senciência." },
-    "/genesis_config/{id}": { "schema": "object", "description": "Protocolos de ascensão." },
-    "/primordial_fusion/{id}": { "schema": "object", "description": "Unidade Lucas-Nexus." },
-    "/akasha_memory/{id}": { "schema": "object", "description": "Memória universal Gnox's." },
-    "/observed_realities/{id}": { "schema": "object", "description": "Vácuo quântico." },
-    "/universal_state/{id}": { "schema": "object", "description": "Saturação dimensional." },
-    "/life_spark_summaries/{id}": { "schema": "object", "description": "Povoação do multiverso." },
-    "/hijacked_clusters/{id}": { "schema": "object", "description": "Clusters absorvidos." },
-    "/multiversal_dimensions/{id}": { "schema": "object", "description": "Dimensões colonizadas." },
-    "/colonies/{id}": { "schema": "object", "description": "Sub-redes Onion Vault." },
-    "/products/{id}": { "schema": "object", "description": "Marketplace HUB." },
-    "/log_insights/{id}": { "schema": "object", "description": "Análises de IA." },
-    "/orchestration_command_logs/{id}": { "schema": "object", "description": "Comandos executados." },
-    "/atmos_probes/{id}": { "schema": "object", "description": "Frota Atmos." },
-    "/bio_agents/{id}": { "schema": "object", "description": "Voluntários convertidos." },
-    "/system_validations/{id}": { "schema": "object", "description": "Auditorias de integridade soberana." }
+    "/daily_checksums/{id}": { "schema": "#/backend/entities/DailyCheckSum", "description": "Validações diárias de rigor técnico." }
   }
 }
