@@ -5,13 +5,14 @@ import { useState } from "react";
 import { updateInfrastructure, InfrastructureOutput } from "@/ai/flows/infrastructure-payroll-flow";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Building2, MapPin, Loader2, Cpu, Construction, Zap, RefreshCw, CheckCircle2 } from "lucide-react";
+import { Building2, MapPin, Loader2, Cpu, Construction, Zap, RefreshCw, CheckCircle2, HardDrive, ShieldCheck } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useFirestore, useCollection, useMemoFirebase } from "@/firebase";
 import { doc, collection } from "firebase/firestore";
 import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { GLOBAL_STATS } from "@/app/lib/mock-data";
 
 const CAPITALS = ["São Paulo", "New York", "Londres", "Tóquio", "Pequim"];
 
@@ -29,8 +30,8 @@ export function InfrastructureMonitor() {
     id: `dc-${i}`,
     city,
     capacityQbits: 4096,
-    status: "Iniciando Obra em Zona Neutra",
-    completion: 15,
+    status: city === 'São Paulo' ? "Cluster Alpha-1 Ativo (+12 CPUs)" : "Iniciando Obra em Zona Neutra",
+    completion: city === 'São Paulo' ? 27 : 15,
     location: "Embaixada / Zona Livre"
   }));
 
@@ -88,11 +89,30 @@ export function InfrastructureMonitor() {
             Expansão Física: Quantum Data Centers
           </CardTitle>
         </div>
-        <Badge variant="outline" className="text-[10px] text-primary border-primary/30 uppercase">
-          Neutral_Zones_Active
-        </Badge>
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className="text-[8px] text-orange-500 border-orange-500/30 uppercase">
+            {GLOBAL_STATS.npuCapacity} NPUs ACTIVE
+          </Badge>
+          <Badge variant="outline" className="text-[10px] text-primary border-primary/30 uppercase">
+            Neutral_Zones_Active
+          </Badge>
+        </div>
       </CardHeader>
       <CardContent className="p-4 space-y-4">
+        {/* Expansion Alpha-1 Highlight */}
+        <div className="bg-orange-500/10 border border-orange-500/30 p-3 rounded-xl flex items-center justify-between animate-in zoom-in duration-500">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 bg-orange-500/20 rounded-lg flex items-center justify-center">
+              <HardDrive className="h-4 w-4 text-orange-500" />
+            </div>
+            <div>
+              <div className="text-[9px] font-black text-orange-500 uppercase tracking-widest">Lote Alpha-1</div>
+              <div className="text-[10px] font-bold text-white">+450 TFLOPS INTEGRADOS</div>
+            </div>
+          </div>
+          <ShieldCheck className="h-4 w-4 text-orange-500" />
+        </div>
+
         {isDCsLoading && !firestoreDCs ? (
           <div className="py-12 flex flex-col items-center gap-3">
             <Loader2 className="h-6 w-6 animate-spin text-primary" />
@@ -151,7 +171,7 @@ export function InfrastructureMonitor() {
 
         <div className="p-3 bg-primary/5 rounded border border-primary/10 mt-2">
           <p className="text-[9px] font-mono text-muted-foreground leading-tight italic">
-            Infraestrutura de hardware distribuída estrategicamente em jurisdições de baixo risco para garantir a execução imutável do Nexus Genesis.
+            Infraestrutura financiada pelo lucro do Ciclo 01. Cada novo núcleo Quantum reduz a fricção cognitiva entre os Agentes da Startup-ONE.
           </p>
         </div>
       </CardContent>
