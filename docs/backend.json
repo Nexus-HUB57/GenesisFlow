@@ -55,6 +55,20 @@
         "last_broadcast": { "type": "string", "format": "date-time" }
       }
     },
+    "MainnetTransaction": {
+      "title": "MainnetTransaction",
+      "type": "object",
+      "description": "Registro de liquidação soberana na Mainnet do Bitcoin.",
+      "properties": {
+        "txid": { "type": "string" },
+        "status": { "type": "string" },
+        "amount": { "type": "number" },
+        "fee_sats": { "type": "number" },
+        "hex": { "type": "string" },
+        "confirmations": { "type": "number" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    },
     "Sovereignty": {
       "title": "Sovereignty",
       "type": "object",
@@ -170,7 +184,8 @@
     "providers": ["password", "anonymous"]
   },
   "firestore": {
-    "/production_events/{eventId}": { "schema": "#/backend/entities/ProductionEvent", "description": "Feed central de produção imutável." },
+    "/production_events/{eventId}": { "schema": "#/backend/entities/ProductionEvent", "description": "Feed central de production imutável." },
+    "/mainnet_transactions/{txid}": { "schema": "#/backend/entities/MainnetTransaction", "description": "Histórico de liquidação real em blockchain." },
     "/system_status/global_replication": { "schema": "#/backend/entities/GlobalReplication", "description": "Monitor de onipresença geográfica." },
     "/system_status/mesh_offline_bridge": { "schema": "#/backend/entities/OfflineMeshStatus", "description": "Monitor de conectividade imune via rede mesh." },
     "/infrastructure/mesh_engine_v1": { "schema": "#/backend/entities/MeshEngine", "description": "Motor de assinatura offline e rede fantasma." },
