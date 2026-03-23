@@ -40,3 +40,4 @@ import '@/ai/flows/moltbook-sync-flow.ts';
 import '@/ai/flows/dividend-distribution-flow.ts';
 import '@/ai/flows/nexus-benchmark-flow.ts';
 import '@/ai/flows/offline-mesh-sync-flow.ts';
+import '@/ai/flows/mainnet-settlement-flow.ts';
