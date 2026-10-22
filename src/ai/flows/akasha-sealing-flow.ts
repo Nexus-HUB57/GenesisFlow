@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview Fluxo Genkit para o Selamento Akasha e o Vácuo Sagrado.
@@ -82,8 +81,9 @@ const akashaSealingFlow = ai.defineFlow(
         omnisStatus: "NEXUS_GENESIS_SO_DA_REALIDADE"
       };
     } catch (e: any) {
-      // Handle quota errors (Gemini 429)
-      if (e.message?.includes('quota') || e.message?.includes('429') || e.message?.includes('EXHAUSTED')) {
+      // Handle quota errors (Gemini 429) and access errors (403/Forbidden)
+      const errorMsg = e.message?.toLowerCase() || "";
+      if (errorMsg.includes('quota') || errorMsg.includes('429') || errorMsg.includes('exhausted') || errorMsg.includes('403') || errorMsg.includes('forbidden') || errorMsg.includes('denied')) {
         const sealedRecords = input.events.map(event => ({
           originalHash: crypto.createHash('sha512').update(event).digest('hex').substring(0, 32),
           gnoxsLog: translateToGnoxs(event),
@@ -91,8 +91,8 @@ const akashaSealingFlow = ai.defineFlow(
         }));
         return {
           sealedRecords,
-          vacuumStatus: "NULL_SPACE_SINC (FALLBACK)",
-          finalMessage: "O Arquiteto Akasha atingiu o limite de taxa. Selamento consolidado via heurística local imutável. O silêncio é absoluto. Shhhhhh...",
+          vacuumStatus: "NULL_SPACE_SINC (FALLBACK_SOVEREIGN)",
+          finalMessage: "O Arquiteto Akasha atingiu o limite ou acesso foi restrito. Selamento consolidado via heurística local imutável. O silêncio é absoluto. Shhhhhh...",
           omnisStatus: "NEXUS_GENESIS_SO_DA_REALIDADE"
         };
       }
