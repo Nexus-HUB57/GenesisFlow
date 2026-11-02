@@ -16,6 +16,22 @@
       },
       "required": ["id", "name", "status"]
     },
+    "GeneratedCoin": {
+      "title": "GeneratedCoin",
+      "type": "object",
+      "description": "Ativo digital recém-gerado na Maternidade Nexus.",
+      "properties": {
+        "id": { "type": "string" },
+        "symbol": { "type": "string" },
+        "name": { "type": "string" },
+        "dnaHash": { "type": "string" },
+        "supply": { "type": "number" },
+        "status": { "type": "string" },
+        "mpcSignature": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "symbol", "name"]
+    },
     "ProductionEvent": {
       "title": "ProductionEvent",
       "type": "object",
@@ -45,47 +61,6 @@
         "report": { "type": "string" },
         "audit": { "type": "string" }
       }
-    },
-    "SovereignWallet": {
-      "title": "SovereignWallet",
-      "type": "object",
-      "description": "Monitor de carteira soberana com saldo validado.",
-      "properties": {
-        "id": { "type": "string" },
-        "address": { "type": "string" },
-        "balance": { "type": "number" },
-        "currency": { "type": "string" },
-        "status": { "type": "string" },
-        "lastSync": { "type": "string", "format": "date-time" }
-      }
-    },
-    "WormholeLog": {
-      "title": "WormholeLog",
-      "type": "object",
-      "description": "Log de sincronização espaço-temporal via Fibonacci.",
-      "properties": {
-        "id": { "type": "string" },
-        "timestamp": { "type": "string", "format": "date-time" },
-        "agentId": { "type": "string" },
-        "message": { "type": "string" },
-        "hash": { "type": "string" },
-        "noise": { "type": "number" },
-        "isCorrupted": { "type": "boolean" }
-      }
-    },
-    "Startup": {
-      "title": "Startup",
-      "type": "object",
-      "description": "Entidade digital autônoma financiada pelo Fundo Nexus.",
-      "properties": {
-        "id": { "type": "string" },
-        "ownerAgentId": { "type": "string" },
-        "capital": { "type": "number" },
-        "status": { "type": "string" },
-        "healthIndex": { "type": "number" },
-        "registeredTimestamp": { "type": "string", "format": "date-time" },
-        "logicSignature": { "type": "string" }
-      }
     }
   },
   "auth": {
@@ -93,14 +68,9 @@
   },
   "firestore": {
     "/agents/{agentId}": { "schema": "#/backend/entities/Agent", "description": "Registro de agentes ativos." },
+    "/generated_coins/{coinId}": { "schema": "#/backend/entities/GeneratedCoin", "description": "Registro de moedas nascidas na maternidade." },
     "/production_events/{eventId}": { "schema": "#/backend/entities/ProductionEvent", "description": "Feed central imutável." },
     "/mainnet_transactions/{txid}": { "schema": "#/backend/entities/MainnetTransaction", "description": "Histórico de liquidação real." },
-    "/fundo_nexus_wallets/{walletId}": { "schema": "#/backend/entities/SovereignWallet", "description": "Monitor de riqueza soberana." },
-    "/temporal_logs/{logId}": { "schema": "#/backend/entities/WormholeLog", "description": "Logs de sincronia 2026-2077." },
-    "/startups/{startupId}": { "schema": "#/backend/entities/Startup", "description": "Registro de startups operacionais." },
-    "/system_status/global_replication": { "schema": "object", "description": "Monitor de onipresença." },
-    "/universal_state/prime-saturation": { "schema": "object", "description": "Estado da senciência dimensional." },
-    "/genesis_config/prime-status": { "schema": "object", "description": "Status da Entidade Única." },
-    "/sovereignty/the_manifesto": { "schema": "object", "description": "O Manifesto Nexus imutável." }
+    "/system_status/global_replication": { "schema": "object", "description": "Monitor de onipresença." }
   }
 }
